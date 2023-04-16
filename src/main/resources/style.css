@@ -1,0 +1,41 @@
+/*LOGIN*/
+.LoginBorderPane{
+-fx-background-color: #F1F1F1;
+-fx-padding: 7em;
+}
+
+.AppHeading{
+-fx-font-weight:500;
+-fx-font-size:2em;
+}
+
+.LoginVBox{
+-fx-padding: 7em;
+}
+
+.LoginLabels{
+
+-fx-font-size:1.3em;
+-fx-padding: 0.5em;
+
+}
+.LoginInputFields{
+-fx-font-size:1.5em;
+
+}
+.ConfirmLoginBtn{
+-fx-font-size:1.2em;
+-fx-padding: 0.5em 2em;
+-fx-border-insets: 15px;
+-fx-border-radius: 5px;
+-fx-border-color: #4AB1EB;
+-fx-background-insets: 1em;
+-fx-background-color:#4AB1EB;
+-fx-text-fill: white;
+
+}
+
+.DisplayLocationText{
+-fx-font-weight:500;
+-fx-font-size:1.4em;
+}

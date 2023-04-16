@@ -7,10 +7,36 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
-<GridPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx" styleClass="LoginBorderPane"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="main.controllers.LoginController"
-          prefHeight="400.0" prefWidth="600.0">
+          prefHeight="400.0" prefWidth="600.0"
+stylesheets="@./style.css">
 
-    <Text GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="2">Scheduling App</Text>
-</GridPane>
+
+            <top>
+                <GridPane alignment="CENTER">
+                    <Text GridPane.rowIndex="1" styleClass="AppHeading" >Scheduling App</Text>
+
+                </GridPane>
+            </top>
+
+    <center>
+        <VBox alignment="CENTER" prefWidth="100" styleClass="LoginVBox">
+            <VBox alignment="TOP_LEFT">
+                <Label styleClass="LoginLabels" >Username</Label>
+                <TextField styleClass="LoginInputFields" promptText="Type in username"></TextField>
+            </VBox>
+        <VBox alignment="TOP_LEFT">
+            <Label styleClass="LoginLabels">Password</Label>
+            <PasswordField styleClass="LoginInputFields" promptText="Type in password" ></PasswordField>
+        </VBox>
+            <Button styleClass="ConfirmLoginBtn">Login</Button>
+        </VBox>
+    </center>
+    <bottom>
+        <Text  styleClass="DisplayLocationText">Location: United States</Text>
+    </bottom>
+
+
+</BorderPane>
