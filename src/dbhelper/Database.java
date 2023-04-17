@@ -16,8 +16,8 @@ public abstract class Database {
     private static final String location = "//localhost/";
     private static final String databaseName = "client_schedule";
     private static final String jdbcUrl = protocol + vendor + location + databaseName + "?connectionTimeZone = SERVER";
-    private static String password = "Passw0rd!!"; // should be hidden from GitHub
-    private static String userName = "sqlUser!"; // should be hidden from GitHub
+    private static String password = "Passw0rd!"; // should be hidden from GitHub
+    private static String userName = "sqlUser"; // should be hidden from GitHub
 
     /**
      * @connection declare interface for DB connection

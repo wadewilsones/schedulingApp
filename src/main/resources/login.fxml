@@ -22,16 +22,17 @@ stylesheets="@./style.css">
             </top>
 
     <center>
-        <VBox alignment="CENTER" prefWidth="100" styleClass="LoginVBox">
+        <VBox alignment="CENTER" prefWidth="100" styleClass="LoginVBox" spacing="20">
+            <Text GridPane.rowIndex="2" styleClass="errorStyle" fx:id="errorHolder"></Text>
             <VBox alignment="TOP_LEFT">
                 <Label styleClass="LoginLabels" >Username</Label>
-                <TextField styleClass="LoginInputFields" promptText="Type in username"></TextField>
+                <TextField styleClass="LoginInputFields" promptText="Type in username" fx:id="usernameField"></TextField>
             </VBox>
         <VBox alignment="TOP_LEFT">
-            <Label styleClass="LoginLabels">Password</Label>
-            <PasswordField styleClass="LoginInputFields" promptText="Type in password" ></PasswordField>
+            <Label styleClass="LoginLabels" >Password</Label>
+            <PasswordField styleClass="LoginInputFields" promptText="Type in password" fx:id="passwordField"></PasswordField>
         </VBox>
-            <Button styleClass="ConfirmLoginBtn">Login</Button>
+            <Button styleClass="ConfirmLoginBtn" onMouseClicked="#loginUser">Login</Button>
         </VBox>
     </center>
     <bottom>

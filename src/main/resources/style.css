@@ -1,3 +1,11 @@
+/*General*/
+
+.errorStyle{
+-fx-font-size:1.3em;
+-fx-fill: #FF4F28;
+
+}
+
 /*LOGIN*/
 .LoginBorderPane{
 -fx-background-color: #F1F1F1;
