@@ -19,7 +19,7 @@ public class Main extends Application{
         /**
          * Open connection with Database
          */
-        Database.startConnection();
+        //Database.startConnection();
         launch(args);
     }
 

@@ -16,7 +16,7 @@ stylesheets="@./style.css">
 
             <top>
                 <GridPane alignment="CENTER">
-                    <Text GridPane.rowIndex="1" styleClass="AppHeading" >Scheduling App</Text>
+                    <Text GridPane.rowIndex="1" styleClass="AppHeading" fx:id="Scheduling_App_Label">Scheduling App</Text>
 
                 </GridPane>
             </top>
@@ -25,18 +25,18 @@ stylesheets="@./style.css">
         <VBox alignment="CENTER" prefWidth="100" styleClass="LoginVBox" spacing="20">
             <Text GridPane.rowIndex="2" styleClass="errorStyle" fx:id="errorHolder"></Text>
             <VBox alignment="TOP_LEFT">
-                <Label styleClass="LoginLabels" >Username</Label>
+                <Label styleClass="LoginLabels" fx:id="Username_Label">Username</Label>
                 <TextField styleClass="LoginInputFields" promptText="Type in username" fx:id="usernameField"></TextField>
             </VBox>
         <VBox alignment="TOP_LEFT">
-            <Label styleClass="LoginLabels" >Password</Label>
+            <Label styleClass="LoginLabels" fx:id="Password_Label">Password</Label>
             <PasswordField styleClass="LoginInputFields" promptText="Type in password" fx:id="passwordField"></PasswordField>
         </VBox>
-            <Button styleClass="ConfirmLoginBtn" onMouseClicked="#loginUser">Login</Button>
+            <Button styleClass="ConfirmLoginBtn" onMouseClicked="#loginUser" fx:id="Login_Button">Login</Button>
         </VBox>
     </center>
     <bottom>
-        <Text  styleClass="DisplayLocationText">Location: United States</Text>
+        <Label  styleClass="DisplayLocationText" fx:id="timeZone"></Label>
     </bottom>
 
 
