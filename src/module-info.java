@@ -4,6 +4,7 @@ module schedulingApp {
     requires javafx.graphics;
     requires java.base;
     requires java.desktop;
+    requires java.sql;
 
     opens main.controllers to javafx.fxml, javafx.graphics;
     opens main to javafx.fxml, javafx.graphics;
