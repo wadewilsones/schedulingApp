@@ -51,25 +51,56 @@
 /*Dashboard*/
 
 .GridPaneDashboard{
--fx-padding:3em;
+-fx-padding: 1em 4em;
 }
+
 .DashboardHeading{
 -fx-font-weight:bold;
 -fx-font-size:2em;
 
 }
 
-.HBoxDashboard_TablesContainer{
--fx-padding:3em;
+
+.Dashboard_Switcher_Holder{
+-fx-padding:2em 0;
 }
 
-.Dashboard_BorderPain_tables FlowPane{
--fx-padding:2em;
+.Dashboard_Switcher_Holder Button{
+-fx-font-size:1.2em;
+-fx-border-color: #4AB1EB;
+-fx-background-color:#4AB1EB;
+-fx-text-fill: white;
+}
+
+.Dashboard_BorderPain_tables{
+-fx-border-color: red;
+}
+
+.TableHeadingWrapper{
+-fx-padding:0 0 4em 0;
 }
 
 .DashboardTableheaders{
-
--fx-font-weight:500;
--fx-font-size:1.6em;
-
+-fx-font-weight:600;
+-fx-font-size:1.8em;
+-fx-text-alignment: center;
 }
+
+.AptBtnContainer{
+-fx-padding:1.5em;
+}
+
+.AptBtnContainer Button{
+-fx-font-size:1.2em;
+-fx-border-color: #4AB1EB;
+-fx-background-color:#4AB1EB;
+-fx-text-fill: white;
+}
+
+#DeleteBtn{
+-fx-background-color:red;
+-fx-text-fill: white;
+-fx-border-color: red;
+}
+
+

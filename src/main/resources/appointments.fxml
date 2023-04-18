@@ -6,54 +6,52 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<GridPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="main.controllers.AppointmentsControll"
             prefHeight="780.0" prefWidth="1200.0" stylesheets="@./style.css">
 
-        <GridPane styleClass="GridPaneDashboard" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="2">
-            <Text GridPane.rowIndex="1" styleClass="DashboardHeading" fx:id="Scheduling_App_Label">Dashboard</Text>
-        </GridPane>
+        <top>
+            <GridPane styleClass="GridPaneDashboard" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="2">
+                <Text GridPane.rowIndex="1" styleClass="DashboardHeading" fx:id="Scheduling_App_Label">Dashboard</Text>
+                <FlowPane styleClass="Dashboard_Switcher_Holder"  GridPane.rowIndex="2" >
+                    <Button GridPane.rowIndex="2" fx:id="SwitchToCustomerTableBtn">Switch to Customer Table</Button>
+                </FlowPane>
+            </GridPane>
+        </top>
 
-        <HBox GridPane.rowIndex="2" GridPane.columnSpan="2" styleClass="HBoxDashboard_TablesContainer" spacing="200">
-            <BorderPane styleClass="Dashboard_BorderPain_tables">
-                <top>
-                    <FlowPane  alignment="CENTER" styleClass="Dashboard_BorderPain_tables">
-                        <Text styleClass="DashboardTableheaders">Appointments</Text>
-                    </FlowPane>
-                </top>
-                    <center>
-                        <TableView fx:id="AppointmentView">
-                            <columns>
-                                <TableColumn text="Appointment_ID " fx:id="AppId" ></TableColumn>
-                                <TableColumn text="Title"  fx:id="Title"></TableColumn>
-                                <TableColumn text="Description" fx:id="Description"></TableColumn>
-                                <TableColumn text="Location" fx:id="Location"></TableColumn>
+        <center>
+    <GridPane styleClass="Wrapper_ApptTable_AndHeading" alignment="CENTER">
+            <FlowPane  GridPane.rowIndex="1" GridPane.columnSpan="3" GridPane.columnIndex="1" styleClass = "TableHeadingWrapper" alignment="CENTER">
+                <Text styleClass="DashboardTableheaders">Appointments</Text>
+            </FlowPane>
 
-                                <TableColumn text="Contact " fx:id="Contact" ></TableColumn>
-                                <TableColumn text="Type"  fx:id="Type"></TableColumn>
-                                <TableColumn text="Start Date and Time " fx:id="StartDate_Time"></TableColumn>
-                                <TableColumn text="End Date and Time " fx:id="EndDate_Time"></TableColumn>
+            <FlowPane  styleClass="TableViewHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" alignment="CENTER">
+            <TableView fx:id="AppointmentView">
+                <columns>
+                    <TableColumn text="Appointment_ID " fx:id="AppId" prefWidth="170"></TableColumn>
+                    <TableColumn text="Title"  fx:id="Title" prefWidth="100"></TableColumn>
+                    <TableColumn text="Description" fx:id="Description" prefWidth="100"></TableColumn>
+                    <TableColumn text="Location" fx:id="Location" prefWidth="100"></TableColumn>
 
-                                <TableColumn text="Customer_ID" fx:id="Cust_ID"></TableColumn>
-                                <TableColumn text="User_ID" fx:id="User_ID"></TableColumn>
-                            </columns>
-                        </TableView>
-                    </center>
-            </BorderPane>
+                    <TableColumn text="Contact " fx:id="Contact" prefWidth="100"></TableColumn>
+                    <TableColumn text="Type"  fx:id="Type" prefWidth="80"></TableColumn>
+                    <TableColumn text="Start Date and Time " fx:id="StartDate_Time"  prefWidth="80"></TableColumn>
+                    <TableColumn text="End Date and Time " fx:id="EndDate_Time"  prefWidth="80"></TableColumn>
 
-                <BorderPane styleClass="Dashboard_BorderPain_tables">
-                    <top>
-                        <FlowPane  alignment="CENTER" styleClass="Dashboard_BorderPain_tables" >
-                            <Text styleClass="DashboardTableheaders">Customers</Text>
-                        </FlowPane>
+                    <TableColumn text="Customer_ID" fx:id="Cust_ID" prefWidth="110"></TableColumn>
+                    <TableColumn text="User_ID" fx:id="User_ID" prefWidth="100"></TableColumn>
+                </columns>
+            </TableView>
+                <HBox spacing="30" styleClass="AptBtnContainer">
+                    <Button>Add Appointment</Button>
+                    <Button>Update Appointment</Button>
+                    <Button id="DeleteBtn">Delete Appointment</Button>
+                </HBox>
+            </FlowPane>
 
-                    </top>
-                    <center>
-                        <TableView>
-                        </TableView>
-                    </center>
-                </BorderPane>
-        </HBox>
+    </GridPane>
+    </center>
 
-</GridPane>
+
+</BorderPane>
