@@ -1,5 +1,7 @@
 package main.models;
 
+import javafx.beans.property.*;
+
 import java.util.Date;
 
 /**
@@ -65,7 +67,7 @@ public class Appointments {
     public String getLocation(){
         return this.location;
     }
-    public String gertType(){
+    public String getType(){
         return this.type;
     }
     public Date getStartDate(){
@@ -96,62 +98,99 @@ public class Appointments {
         return this.contact_ID;
     }
 
+    /**
+     * Transform private members to fill out tables
+     */
+    public IntegerProperty getSimpleApptId(){
+        IntegerProperty id = new SimpleIntegerProperty(this.appointmentId);
+        return id;
+    }
+    public StringProperty getSimpleTitle(){
+        StringProperty title = new SimpleStringProperty(this.title);
+        return title;
+    }
+    public StringProperty getSimpleDescription(){
+        StringProperty description = new SimpleStringProperty(this.description);
+        return description;
+    }
+    public StringProperty getSimpleLocation(){
+        StringProperty location = new SimpleStringProperty(this.location);
+        return location;
+    }
+    public StringProperty getSimpleType(){
+        StringProperty type = new SimpleStringProperty(this.type);
+        return type;
+    }
+
+    public ObjectProperty<Date> getStartDateObject(){
+        ObjectProperty<Date> startDate = new SimpleObjectProperty<Date>(this.start);
+        return startDate;
+    }
+
+    public ObjectProperty<Date> getEndDateObject(){
+        ObjectProperty<Date> endDate = new SimpleObjectProperty<Date>(this.end);
+        return endDate;
+    }
+
+    public IntegerProperty getSimpleCus_ID(){
+        IntegerProperty customer_ID = new SimpleIntegerProperty(this.customer_ID);
+        return customer_ID;
+    }
+    public IntegerProperty getSimpleUser_ID(){
+        IntegerProperty user_ID = new SimpleIntegerProperty(this.user_ID);
+        return user_ID;
+    }
+    /**
+     * NEED TO BE CHANGEd TO CONTACT
+     */
+    public IntegerProperty getSimpleContact_ID(){
+        IntegerProperty contact_ID = new SimpleIntegerProperty(this.contact_ID);
+        return contact_ID;
+    }
+
 
     /**
      * Setters for private members
      */
-
     public void setAppointmentId(int appId){
         this.appointmentId = appId;
     }
-
     public void setTitle(String title){
         this.title = title;
     }
-
     public void setDescription(String description){
        this.description = description;
     }
     public void setLocation(String location) {
         this.location = location;
     }
-
     public void setType(String type) {
         this.type = type;
     }
-
     public void setStartDate(Date start) {
         this.start = start;
     }
-
     public void setEndDate(Date end) {
         this.end = end;
     }
-
     public void set_created_Date(Date created_Date) {
         this.created_Date = created_Date;
     }
-
     public void set_created_By(String created_By) {
         this.created_By = created_By;
     }
-
     public void set_lastUpdate(String last_Update) {
         this.last_Update = last_Update;
     }
-
     public void set_last_Update_By(String last_Update_By) {
         this.last_Update_By = last_Update_By;
     }
-
     public void setCustomer_ID(int customer_ID) {
         this.customer_ID = customer_ID;
     }
-
     public void setUser_ID(int user_ID) {
         this.user_ID = user_ID;
     }
-
     public void setContact_ID(int contact_ID) {
         this.contact_ID = contact_ID;
     }

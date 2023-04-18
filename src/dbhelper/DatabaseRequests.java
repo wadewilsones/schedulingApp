@@ -30,7 +30,6 @@ import java.sql.Statement;
      */
     static public boolean authenticate(String username, String password){
 
-
         /**
          * Connect with Database and query
          */

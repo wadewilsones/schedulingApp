@@ -15,7 +15,7 @@
             <GridPane styleClass="GridPaneDashboard" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="2">
                 <Text GridPane.rowIndex="1" styleClass="DashboardHeading" fx:id="Scheduling_App_Label">Dashboard</Text>
                 <FlowPane styleClass="Dashboard_Switcher_Holder"  GridPane.rowIndex="2" >
-                    <Button GridPane.rowIndex="2" fx:id="SwitchToCustomerTableBtn">Switch to Customer Table</Button>
+                    <Button GridPane.rowIndex="2" fx:id="SwitchToCustomerTableBtn" onMouseClicked="#SwitchTableToCustomer">Switch to Customer Table</Button>
                 </FlowPane>
             </GridPane>
         </top>

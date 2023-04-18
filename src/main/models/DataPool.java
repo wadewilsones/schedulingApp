@@ -22,6 +22,23 @@ public class DataPool {
     /*APPOINTMENTS SECTION*/
 
     /**
+     * Get Appointment List
+     */
+    static public ObservableList<Appointments> getAllAppointments(){
+        return allAppointments;
+    }
+
+    /**
+     * Duplicates checking
+     */
+
+    static public boolean isDuplicate(){
+        for(int i = 0; i < allAppointments.size(); i++){
+
+        }
+    }
+
+    /**
      * Add appointment to the list
      */
 
