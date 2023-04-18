@@ -17,7 +17,6 @@ stylesheets="@./style.css">
             <top>
                 <GridPane alignment="CENTER">
                     <Text GridPane.rowIndex="1" styleClass="AppHeading" fx:id="Scheduling_App_Label">Scheduling App</Text>
-
                 </GridPane>
             </top>
 

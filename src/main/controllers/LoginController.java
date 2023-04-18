@@ -3,15 +3,21 @@ package main.controllers;
 import dbhelper.Database;
 import dbhelper.DatabaseRequests;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.*;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
+import main.Main;
 import main.utils.TimeHandling;
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import java.awt.*;
 import java.net.URL;
 import java.util.Locale;
@@ -82,7 +88,6 @@ public class LoginController implements Initializable {
     public void loginUser(MouseEvent mouseEvent) {
 
         errorHolder.setText("");
-
         if(!usernameField.getText().equals("") && !passwordField.getText().equals("")){
             /**
              * Try to access DB
@@ -96,6 +101,21 @@ public class LoginController implements Initializable {
                     else{
                         errorHolder.setText("User with these credentials is not found!");
                     }
+                }
+                else{
+                    /**
+                     * Transfer user to other view
+                     */
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/appointments.fxml"));
+                    Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+                    stage.setTitle("Dashboard");
+                    Parent root = (Parent) fxmlLoader.load();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+/*
+
+ */
 
                 }
             }
@@ -104,7 +124,7 @@ public class LoginController implements Initializable {
                     errorHolder.setText("Quelque chose s'est mal passé!");
                 }
                 else{
-                    errorHolder.setText("Something went wrong!");
+                    errorHolder.setText("Something went wrong!" + e.getMessage());
                 }
 
             }

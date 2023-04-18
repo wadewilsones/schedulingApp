@@ -29,7 +29,7 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //System.out.println(getClass().getResource("resources/login.fxml").getPath());
+        System.out.println("TEST" + getClass().getResource("resources/login.fxml").getPath());
         Parent root = FXMLLoader.load(getClass().getResource("resources/login.fxml"));
         primaryStage.setTitle("Scheduling application");
         primaryStage.setScene(new Scene(root));

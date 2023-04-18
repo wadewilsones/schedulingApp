@@ -68,6 +68,8 @@ import java.sql.Statement;
 
         return getAuthenticated(); // return result of authentication true/false
     }
+    static public void getAppointements(){
 
+    };
 
 }

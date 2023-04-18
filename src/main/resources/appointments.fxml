@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<GridPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="main.controllers.AppointmentsControll"
+            prefHeight="780.0" prefWidth="1200.0" stylesheets="@./style.css">
+
+        <GridPane styleClass="GridPaneDashboard" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="2">
+            <Text GridPane.rowIndex="1" styleClass="DashboardHeading" fx:id="Scheduling_App_Label">Dashboard</Text>
+        </GridPane>
+
+        <HBox GridPane.rowIndex="2" GridPane.columnSpan="2" styleClass="HBoxDashboard_TablesContainer" spacing="200">
+            <BorderPane styleClass="Dashboard_BorderPain_tables">
+                <top>
+                    <FlowPane  alignment="CENTER" styleClass="Dashboard_BorderPain_tables">
+                        <Text styleClass="DashboardTableheaders">Appointments</Text>
+                    </FlowPane>
+                </top>
+                    <center>
+                        <TableView fx:id="AppointmentView">
+                            <columns>
+                                <TableColumn text="Appointment_ID " fx:id="AppId" ></TableColumn>
+                                <TableColumn text="Title"  fx:id="Title"></TableColumn>
+                                <TableColumn text="Description" fx:id="Description"></TableColumn>
+                                <TableColumn text="Location" fx:id="Location"></TableColumn>
+
+                                <TableColumn text="Contact " fx:id="Contact" ></TableColumn>
+                                <TableColumn text="Type"  fx:id="Type"></TableColumn>
+                                <TableColumn text="Start Date and Time " fx:id="StartDate_Time"></TableColumn>
+                                <TableColumn text="End Date and Time " fx:id="EndDate_Time"></TableColumn>
+
+                                <TableColumn text="Customer_ID" fx:id="Cust_ID"></TableColumn>
+                                <TableColumn text="User_ID" fx:id="User_ID"></TableColumn>
+                            </columns>
+                        </TableView>
+                    </center>
+            </BorderPane>
+
+                <BorderPane styleClass="Dashboard_BorderPain_tables">
+                    <top>
+                        <FlowPane  alignment="CENTER" styleClass="Dashboard_BorderPain_tables" >
+                            <Text styleClass="DashboardTableheaders">Customers</Text>
+                        </FlowPane>
+
+                    </top>
+                    <center>
+                        <TableView>
+                        </TableView>
+                    </center>
+                </BorderPane>
+        </HBox>
+
+</GridPane>
