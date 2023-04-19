@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import main.Main;
 import main.controllers.AppointmentsControll;
 import main.models.Appointments;
+import main.models.DataPool;
+import main.utils.TimeHandling;
 import main.utils.Validation;
 
 import java.io.IOException;
@@ -25,12 +27,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 /**
  * This class will handle adding appointment form
  */
 public class AddingAppointment implements Initializable {
-
 
 
     public void CancelAddingAppoitment(MouseEvent mouseEvent) throws IOException {
@@ -39,7 +41,7 @@ public class AddingAppointment implements Initializable {
          */
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/appointments.fxml"));
-        Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         stage.setTitle("Dashboard - Customers");
         Parent root = (Parent) fxmlLoader.load();
         stage.setScene(new Scene(root));
@@ -52,17 +54,19 @@ public class AddingAppointment implements Initializable {
     @FXML
     public TextField generated_id;
     @FXML
-    public TextField  title;
+    public TextField title;
     @FXML
-    public TextField  description;
+    public TextField description;
     @FXML
-    public TextField  location;
+    public TextField location;
     @FXML
     public ComboBox contact;
     @FXML
-    public TextField  type;
+    public TextField type;
 
-    /**Dates and Time*/
+    /**
+     * Dates and Time
+     */
     @FXML
     public DatePicker startDate;
     @FXML
@@ -72,10 +76,12 @@ public class AddingAppointment implements Initializable {
     @FXML
     public TextField endTime;
 
-    /**IDs*/
+    /**
+     * IDs
+     */
     @FXML
     public TextField customerID;
-    public TextField  userID;
+    public TextField userID;
 
     /**
      * Error displayer
@@ -92,7 +98,7 @@ public class AddingAppointment implements Initializable {
      * Initialize User ID and Appointment ID
      */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
         generated_id.setText(String.valueOf(AppointmentsControll.getAppointmentIdGenerator()));
         userID.setText(String.valueOf(DatabaseRequests.getUserID())); // set up userID
@@ -101,32 +107,41 @@ public class AddingAppointment implements Initializable {
 
     public void addNewAppointmentToList(MouseEvent mouseEvent) {
         ErrorHolder.setText("");
-        System.out.println(title.getText());
-        try{
+        try {
+            //Validate input
             Validation newValidation = new Validation(title.getText(), description.getText(), location.getText(), type.getText(), startDate.getValue(), startTime.getText(), endDate.getValue(), endTime.getText(), customerID.getText());
 
-            if(newValidation.getValidationValue()){
-                System.out.println("Valid!");
+            if (newValidation.getValidationValue()) {
+
+                /**Converting input to right type*/
+                int id = AppointmentsControll.getAppointmentIdGenerator();
+
+                /**Contact */
+                int convertedContact = 1;
+                /**Date to LocalDateTime*/
+                LocalDateTime convertedStartDate = TimeHandling.convertDateToLocalDateTime(startDate.getValue(), startTime.getText());
+                LocalDateTime convertedEndDate = TimeHandling.convertDateToLocalDateTime(endDate.getValue(), endTime.getText());
+                /**Get today's date for created date column*/
+                LocalDateTime today = LocalDateTime.now();
+                /**Create a new Apointment and add to List*/
+                Appointments newApp = new Appointments(id, title.getText(), description.getText(), location.getText(), type.getText(),convertedStartDate, convertedEndDate, today, DatabaseRequests.getUsername(), today, DatabaseRequests.getUsername(), Integer.valueOf(customerID.getText()), DatabaseRequests.getUserID(),convertedContact );
+                DataPool.addAppointmentToTheList(newApp);
+
+                /**Transfer control to Dashboard*/
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/appointments.fxml"));
+                Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+                stage.setTitle("Dashboard - Appointment");
+                Parent root = (Parent) fxmlLoader.load();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } else {
+                ErrorHolder.setText(Validation.getErrorMessageValue());
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             ErrorHolder.setText("Can't add a new appointment!");
             System.out.println(e.getMessage());
         }
-
-/*
-        if(newValidation.getValidationValue()){
-            System.out.println("Valid!");
-            LocalDateTime today = LocalDateTime.now();
-            /**Prepare values for new appointment entry*/
-
-            //Convert dates to LocalDateTime
-            //LocalDateTime convertedCreatedDate = LocalDateTime.ofInstant(added_startD.toInstant(), ZoneId.systemDefault());
-
-
-            int id = AppointmentsControll.getAppointmentIdGenerator();
-            //Appointments newApp = new Appointments(id, added_title.getText(), added_description.getText(), added_location.getText(), added_type.getText(), added_startD.getValue(), added_endD.getValue(), today, DatabaseRequests.getUsername(), today.toString(), DatabaseRequests.getUsername(), Integer.valueOf(added_cusID.getText()), DatabaseRequests.getUserID(), added_contact.getValue().toString() );
-
     }
 }
+
 

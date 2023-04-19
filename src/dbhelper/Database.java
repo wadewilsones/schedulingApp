@@ -32,7 +32,6 @@ public abstract class Database {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver"); // make sure that class is loaded by the classloader
             connection = DriverManager.getConnection(jdbcUrl, userName,password);
-            System.out.println("Connection is Open");
         }
         catch(Exception e){
             System.out.println(e.getMessage());

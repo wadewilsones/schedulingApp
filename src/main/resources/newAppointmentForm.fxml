@@ -19,7 +19,7 @@
 
                 <VBox  GridPane.rowIndex="1" spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="3">
                     <Label>Appointment_ID</Label>
-                    <Text fx:id="ErrorHolder"></Text>
+                    <Text fx:id="ErrorHolder"  styleClass="errorStyle"></Text>
                     <TextField disable="true" promptText="Auto-Generated" fx:id="generated_id"></TextField>
                 </VBox>
 
@@ -53,7 +53,7 @@
                     <Label>Start Date and Time</Label>
                     <HBox spacing="10">
                         <DatePicker fx:id="startDate"></DatePicker>
-                        <TextField promptText="12:00am"  fx:id="startTime"></TextField>
+                        <TextField promptText="11:00"  fx:id="startTime"></TextField>
                     </HBox>
 
                 </VBox>
@@ -62,14 +62,14 @@
                     <Label>End Date and Time</Label>
                     <HBox spacing="10">
                         <DatePicker  fx:id="endDate"></DatePicker>
-                        <TextField promptText="2:00am" fx:id="endTime"></TextField>
+                        <TextField promptText="15:00" fx:id="endTime"></TextField>
                     </HBox>
 
                 </VBox>
 
                 <VBox GridPane.rowIndex="9"   spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="3">
                     <Label>Customer ID</Label>
-                    <TextField promptText="Type in Customer ID" fx:id="customerID"></TextField>
+                    <TextField promptText="Type in Customer ID (digit)" fx:id="customerID"></TextField>
                 </VBox>
 
                 <VBox GridPane.rowIndex="10" spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="3">

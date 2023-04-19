@@ -1,5 +1,6 @@
 package main.models;
 
+import dbhelper.DatabaseRequests;
 import javafx.beans.value.ObservableListValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,6 +49,7 @@ public class DataPool {
 
     static public void addAppointmentToTheList(Appointments newApp){
         allAppointments.add(newApp);
+        DatabaseRequests.addNewAppointemntToDB(newApp);
     }
 
     /**

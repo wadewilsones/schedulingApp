@@ -1,9 +1,14 @@
 package dbhelper;
 
 
+import main.models.Appointments;
+import main.models.DataPool;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * This class provides interface for interacting with tables data
@@ -62,7 +67,6 @@ import java.sql.Statement;
             Database.startConnection(); // connect to DB
 
             PreparedStatement findUserQuery = Database.connection.prepareStatement("SELECT * FROM users WHERE User_Name = ? AND Password = ?;");
-
             findUserQuery.setString(1,username); // set first query parameter equal to username
             findUserQuery.setString(2,password); // set second query parameter equal to password
 
@@ -76,7 +80,6 @@ import java.sql.Statement;
                 size++;
                 if(size == 1){
                     setAuthenticated(true);
-                    System.out.println(results.getInt("User_ID"));
                     setUserId(results.getInt("User_ID")); // set up current user
                     setUsername(results.getString("User_Name"));
                     return true;
@@ -111,5 +114,38 @@ import java.sql.Statement;
         }
         return results;
     };
+
+
+    /**
+     * Add new Appointment data to Database
+     */
+    static public void addNewAppointemntToDB(Appointments appointment){
+        try{
+            Database.startConnection();
+            PreparedStatement createApptms = Database.connection.prepareStatement("INSERT INTO appointments(Appointment_ID, Title, Description, Location, Type,Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+
+            /**Fill out variables with actual data*/
+            createApptms.setInt(1, appointment.getAppointmentId()); //id
+            createApptms.setString(2, appointment.getTitle()); //title
+            createApptms.setString(3, appointment.getDescription()); //Description
+            createApptms.setString(4, appointment.getLocation()); //Location
+            createApptms.setString(5, appointment.getType()); //Type
+            createApptms.setTimestamp(6, Timestamp.valueOf(appointment.getStartDate())); //start date
+            createApptms.setTimestamp(7, Timestamp.valueOf(appointment.getEndDate())); //end date
+            createApptms.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now())); //created date
+            createApptms.setString(9, currentUsername); // created By
+            createApptms.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now())); // last updated
+            createApptms.setString(11, currentUsername); // updated By
+            createApptms.setInt(12, appointment.getCustomer_ID()); //customer id
+            createApptms.setInt(13, currentUserID); // updated By
+            createApptms.setInt(14, appointment.getContact_ID()); //customer id
+
+            /**Execute query*/
+            createApptms.executeUpdate();
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

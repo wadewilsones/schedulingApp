@@ -9,7 +9,7 @@ import java.util.Date;
 public class Validation {
 
     private boolean isValid;
-    private String errorMessage;
+    private static String errorMessage;
 
     /**
      * Getter for @isValid
@@ -28,8 +28,8 @@ public class Validation {
     /**
      * Getter for @errorMessage
      */
-    public String getErrorMessageValue(){
-        return this.errorMessage;
+    public static String getErrorMessageValue(){
+        return errorMessage;
     }
 
     /**
@@ -45,27 +45,39 @@ public class Validation {
 
      public Validation(String title, String descr, String loc, String type, LocalDate start, String startTime, LocalDate end, String endTime, String cusId){
 
-        /*Type Check for customer ID*/
         try{
             /*Null check*/
-            if(title.equals("") || descr.equals("") || loc.equals("") || type.equals("") || startTime.equals("") || cusId.equals("") || endTime.equals(null)){
+
+            if(title.equals("") || descr.equals("") || loc.equals("") || type.equals("") || startTime.equals("") || cusId.equals("") || endTime.equals("") || start == null || end == null){
                 setValidationValue(false);
                 setErrorMessageValue("Fill out all fields!");
             }
-            Integer.getInteger(cusId);
-            /*Business hours check*/
+            else{
 
-            /*Overlapping hours check*/
-            setValidationValue(true);
+                /**Check if customerID is correct*/
+                Integer.parseInt(cusId);
+
+                /**Convert date and time format*/
+                try{
+                    TimeHandling.convertDateToLocalDateTime(start, startTime);
+                    TimeHandling.convertDateToLocalDateTime(end, endTime);
+                    setValidationValue(true); // validation passed
+                }
+                catch (Exception e){
+                    setValidationValue(false);
+                    setErrorMessageValue(e.getMessage());
+                }
+
+                /*Business hours check*/
+                /*Overlapping hours check*/
+            }
+
         }
         catch(Exception e){
             System.out.println(e.getMessage());
             setValidationValue(false);
-            setErrorMessageValue("Wrong value was entered into the field.");
+            setErrorMessageValue("Wrong value type was entered! Check all your field");
         }
-        // Is empty
-
-        //Type validation
 
     }
 

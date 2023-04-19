@@ -60,7 +60,7 @@ public class AppointmentsControll implements Initializable {
      */
     static private int appointmentIdGenerator;
     static public void setAppointmentIdGenerator(int id) {
-        appointmentIdGenerator = id+1;
+        appointmentIdGenerator = id;
     }
     static public int getAppointmentIdGenerator() {
         return appointmentIdGenerator;
@@ -80,6 +80,7 @@ public class AppointmentsControll implements Initializable {
             /**Create new appointment object that will be added to DataPool*/
             while(results.next()){
 
+
                 /**Create variables to hold record's columns values from DB*/
 
                 int appId = results.getInt("Appointment_ID");
@@ -90,14 +91,9 @@ public class AppointmentsControll implements Initializable {
                 String type = results.getString("Type");
 
                 /**Convert Date to LocalDateTime*/
-                Date startDate = results.getDate("Start");
-                LocalDateTime convertedStartDate = LocalDateTime.ofInstant(startDate.toInstant(), ZoneId.systemDefault());
-
-                Date end = results.getDate("End");
-                LocalDateTime convertedEndDate = LocalDateTime.ofInstant(end.toInstant(), ZoneId.systemDefault());
-
-                Date crDate = results.getDate("Create_Date");
-                LocalDateTime convertedCreatedDate = LocalDateTime.ofInstant(crDate.toInstant(), ZoneId.systemDefault());
+                LocalDateTime start = results.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = results.getTimestamp("End").toLocalDateTime();
+                LocalDateTime createdDate = results.getTimestamp("Create_Date").toLocalDateTime();
 
                 String crBy = results.getString("Created_By");
                 Timestamp l_upd = results.getTimestamp("Last_Update");
@@ -109,7 +105,7 @@ public class AppointmentsControll implements Initializable {
                 int contId = results.getInt("Contact_ID");
 
                 /** Create new Appointment*/
-                Appointments newAppointment = new Appointments(appId,title,descr,loc,type,convertedStartDate,convertedEndDate,convertedCreatedDate,crBy,convertedLastUpdateDate,l_by_upd,cusId,uId,contId);
+                Appointments newAppointment = new Appointments(appId,title,descr,loc,type,start,end,createdDate,crBy,convertedLastUpdateDate,l_by_upd,cusId,uId,contId);
 
                 /**Check for duplicates and include appointment if no duplicates were detected*/
                 DataPool.testingForDuplicates(appId);
@@ -118,7 +114,7 @@ public class AppointmentsControll implements Initializable {
                 DataPool.addAppointmentToTheList(newAppointment);
 
                 /**Set ID generator*/
-                setAppointmentIdGenerator(appId);
+               setAppointmentIdGenerator(appId+1);
 
                 /**Bind Tables column with Appointment list*/
                 AppointmentView.setItems(DataPool.getAllAppointments());
@@ -170,7 +166,7 @@ public class AppointmentsControll implements Initializable {
     public void addNewAppointment(MouseEvent mouseEvent) throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/newAppointmentForm.fxml"));
         Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-        stage.setTitle("Dashboard - Customers");
+        stage.setTitle("Add New Appointment");
         Parent root = (Parent) fxmlLoader.load();
         stage.setScene(new Scene(root));
         stage.show();
