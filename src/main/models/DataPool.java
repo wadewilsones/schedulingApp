@@ -32,10 +32,14 @@ public class DataPool {
      * Duplicates checking
      */
 
-    static public boolean isDuplicate(){
-        for(int i = 0; i < allAppointments.size(); i++){
+    static public void testingForDuplicates(int id){
 
+        for(int i = 0; i < allAppointments.size(); i++){
+            if(id == allAppointments.get(i).getAppointmentId()){
+                deleteAppointment(allAppointments.get(i)); // delete old appointment
+            }
         }
+
     }
 
     /**

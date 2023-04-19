@@ -44,7 +44,7 @@
                 </columns>
             </TableView>
                 <HBox spacing="30" styleClass="AptBtnContainer">
-                    <Button>Add Appointment</Button>
+                    <Button onMouseClicked="#addNewAppointment">Add Appointment</Button>
                     <Button>Update Appointment</Button>
                     <Button id="DeleteBtn">Delete Appointment</Button>
                 </HBox>

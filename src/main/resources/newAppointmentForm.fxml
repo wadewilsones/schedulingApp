@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="main.controllers.adding.AddingAppointment"
+          prefHeight="1000.0" prefWidth="1000.0" stylesheets="@./style.css">
+
+    <FlowPane  GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass = "newAppHeadingContainer" alignment="CENTER">
+        <Text styleClass="DashboardTableheaders" textAlignment="CENTER">Add New Appointment</Text>
+    </FlowPane>
+            <GridPane  styleClass="newAppFormHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" GridPane.columnIndex="1">
+
+                <VBox  GridPane.rowIndex="1" spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="3">
+                    <Label>Appointment_ID</Label>
+                    <Text fx:id="ErrorHolder"></Text>
+                    <TextField disable="true" promptText="Auto-Generated" fx:id="generated_id"></TextField>
+                </VBox>
+
+                <VBox GridPane.rowIndex="2"  spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="12" >
+                    <Label>Title</Label>
+                    <TextField promptText="Type in title" fx:id="title"></TextField>
+                </VBox>
+
+                <VBox GridPane.rowIndex="3"    spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="3">
+                    <Label>Description</Label>
+                    <TextField promptText="Type in description" fx:id="description"></TextField>
+                </VBox>
+
+                <VBox GridPane.rowIndex="4"  spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="3">
+                    <Label>Location</Label>
+                    <TextField promptText="Type in location" fx:id="location"></TextField>
+                </VBox>
+
+                <VBox GridPane.rowIndex="5"  spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="3">
+                    <Label>Contact</Label>
+                    <ComboBox fx:id="contact">
+                    </ComboBox>
+                </VBox>
+
+                <VBox GridPane.rowIndex="6"  spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="3">
+                    <Label>Type</Label>
+                    <TextField promptText="Type in type of event" fx:id="type"></TextField>
+                </VBox>
+
+                <VBox GridPane.rowIndex="7"  spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="3">
+                    <Label>Start Date and Time</Label>
+                    <HBox spacing="10">
+                        <DatePicker fx:id="startDate"></DatePicker>
+                        <TextField promptText="12:00am"  fx:id="startTime"></TextField>
+                    </HBox>
+
+                </VBox>
+
+                <VBox GridPane.rowIndex="8"   spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="3">
+                    <Label>End Date and Time</Label>
+                    <HBox spacing="10">
+                        <DatePicker  fx:id="endDate"></DatePicker>
+                        <TextField promptText="2:00am" fx:id="endTime"></TextField>
+                    </HBox>
+
+                </VBox>
+
+                <VBox GridPane.rowIndex="9"   spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="3">
+                    <Label>Customer ID</Label>
+                    <TextField promptText="Type in Customer ID" fx:id="customerID"></TextField>
+                </VBox>
+
+                <VBox GridPane.rowIndex="10" spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="3">
+                    <Label>User ID</Label>
+                    <TextField   disable="true" fx:id="userID"></TextField>
+                </VBox>
+
+                <HBox styleClass="AptBtnContainer" GridPane.rowIndex="11" spacing="20"  GridPane.columnIndex="1" GridPane.columnSpan="3">
+                    <Button onMouseClicked="#addNewAppointmentToList">Create</Button>
+                    <Button onMouseClicked="#CancelAddingAppoitment">Cancel</Button>
+                </HBox>
+
+            </GridPane>
+</GridPane>

@@ -12,6 +12,9 @@ import java.sql.Statement;
 
     static private boolean isAuthenticated;
 
+    static private int currentUserID; // this will hold current logged in user
+    static private String currentUsername;
+
     /**
      * Getters and setters for  @param isAuthenticated
      */
@@ -21,6 +24,28 @@ import java.sql.Statement;
 
     static public boolean getAuthenticated(){
         return isAuthenticated;
+    }
+
+    /**
+     * Getters and setters for  @param currentUserID
+     */
+    static public void setUserId(int userID){
+        currentUserID = currentUserID;
+    }
+
+    static public int getUserID(){
+        return currentUserID;
+    }
+
+    /**
+     * Getters and setters for  @param  username
+     */
+    static public void setUsername(String username){
+        currentUsername = username;
+    }
+
+    static public String getUsername(){
+        return currentUsername;
     }
 
 
@@ -36,7 +61,7 @@ import java.sql.Statement;
         try{
             Database.startConnection(); // connect to DB
 
-            PreparedStatement findUserQuery = Database.connection.prepareStatement("SELECT User_Name, Password FROM users WHERE User_Name = ? AND Password = ?;");
+            PreparedStatement findUserQuery = Database.connection.prepareStatement("SELECT * FROM users WHERE User_Name = ? AND Password = ?;");
 
             findUserQuery.setString(1,username); // set first query parameter equal to username
             findUserQuery.setString(2,password); // set second query parameter equal to password
@@ -49,17 +74,20 @@ import java.sql.Statement;
             int size = 0;
             while(results.next()){
                 size++;
+                if(size == 1){
+                    setAuthenticated(true);
+                    System.out.println(results.getInt("User_ID"));
+                    setUserId(results.getInt("User_ID")); // set up current user
+                    setUsername(results.getString("User_Name"));
+                    return true;
+                }
+                else{
+                    setAuthenticated(false);
+                    return false;
+                }
             }
 
 
-            if(size == 1){
-                setAuthenticated(true);
-                return true;
-            }
-            else{
-                setAuthenticated(false);
-                return false;
-            }
         }
         catch(Exception e ){
             System.out.println(e.getMessage());

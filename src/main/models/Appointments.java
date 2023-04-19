@@ -2,7 +2,10 @@ package main.models;
 
 import javafx.beans.property.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * This is model for Appointments
@@ -18,11 +21,11 @@ public class Appointments {
     private String description;
     private String location;
     private String type;
-    private Date start;
-    private Date end;
-    private Date created_Date;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private LocalDateTime created_Date;
     private String created_By;
-    private String last_Update;
+    private LocalDateTime last_Update;
     private String last_Update_By;
     private int customer_ID;
     private int user_ID;
@@ -32,7 +35,7 @@ public class Appointments {
      * Constructor for new Appointments
      */
 
-    public Appointments(int appId,String title,String descr,String loc,String type,Date start,Date end,Date crDate,String crBy,String l_upd,String l_by_upd,int cusId,int uId,int contId){
+    public Appointments(int appId, String title, String descr, String loc, String type, LocalDateTime start, LocalDateTime end, LocalDateTime crDate, String crBy, LocalDateTime l_upd, String l_by_upd, int cusId, int uId, int contactID){
 
         this.appointmentId = appId;
         this.title = title;
@@ -47,7 +50,7 @@ public class Appointments {
         this.last_Update_By = l_by_upd;
         this.customer_ID = cusId;
         this.user_ID = uId;
-        this.contact_ID = contId;
+        this.contact_ID = contactID;
 
     }
 
@@ -70,19 +73,19 @@ public class Appointments {
     public String getType(){
         return this.type;
     }
-    public Date getStartDate(){
+    public LocalDateTime getStartDate(){
         return this.start;
     }
-    public Date getEndDate(){
+    public LocalDateTime getEndDate(){
         return this.end;
     }
-    public Date get_created_Date(){
+    public LocalDateTime get_created_Date(){
         return this.created_Date;
     }
     public String get_created_By(){
         return this.created_By;
     }
-    public String get_lastUpdate(){
+    public LocalDateTime get_lastUpdate(){
         return this.last_Update;
     }
     public String get_last_Update_By(){
@@ -122,13 +125,13 @@ public class Appointments {
         return type;
     }
 
-    public ObjectProperty<Date> getStartDateObject(){
-        ObjectProperty<Date> startDate = new SimpleObjectProperty<Date>(this.start);
+    public ObjectProperty<LocalDateTime> getStartDateObject(){
+        ObjectProperty<LocalDateTime> startDate = new SimpleObjectProperty<LocalDateTime>(this.start);
         return startDate;
     }
 
-    public ObjectProperty<Date> getEndDateObject(){
-        ObjectProperty<Date> endDate = new SimpleObjectProperty<Date>(this.end);
+    public ObjectProperty<LocalDateTime> getEndDateObject(){
+        ObjectProperty<LocalDateTime> endDate = new SimpleObjectProperty<LocalDateTime>(this.end);
         return endDate;
     }
 
@@ -140,12 +143,10 @@ public class Appointments {
         IntegerProperty user_ID = new SimpleIntegerProperty(this.user_ID);
         return user_ID;
     }
-    /**
-     * NEED TO BE CHANGEd TO CONTACT
-     */
+
     public IntegerProperty getSimpleContact_ID(){
-        IntegerProperty contact_ID = new SimpleIntegerProperty(this.contact_ID);
-        return contact_ID;
+        IntegerProperty contact = new SimpleIntegerProperty(this.contact_ID);
+        return contact;
     }
 
 
@@ -161,38 +162,42 @@ public class Appointments {
     public void setDescription(String description){
        this.description = description;
     }
+
     public void setLocation(String location) {
         this.location = location;
     }
     public void setType(String type) {
         this.type = type;
     }
-    public void setStartDate(Date start) {
+
+    public void setStartDate(LocalDateTime start) {
         this.start = start;
     }
-    public void setEndDate(Date end) {
+    public void setEndDate(LocalDateTime end) {
         this.end = end;
     }
-    public void set_created_Date(Date created_Date) {
+    public void set_created_Date(LocalDateTime created_Date) {
         this.created_Date = created_Date;
     }
+
     public void set_created_By(String created_By) {
         this.created_By = created_By;
     }
-    public void set_lastUpdate(String last_Update) {
+    public void set_lastUpdate(LocalDateTime last_Update) {
         this.last_Update = last_Update;
     }
     public void set_last_Update_By(String last_Update_By) {
         this.last_Update_By = last_Update_By;
     }
+
     public void setCustomer_ID(int customer_ID) {
         this.customer_ID = customer_ID;
     }
     public void setUser_ID(int user_ID) {
         this.user_ID = user_ID;
     }
-    public void setContact_ID(int contact_ID) {
-        this.contact_ID = contact_ID;
+    public void setContact_ID(int contact) {
+        this.contact_ID = contact;
     }
 
 

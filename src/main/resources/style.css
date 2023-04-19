@@ -103,4 +103,26 @@
 -fx-border-color: red;
 }
 
+/*NEW APPT FORM*/
+
+.newAppHeadingContainer{
+-fx-padding: 3em 25em;
+}
+
+.newAppFormHolder{
+-fx-padding: 0 0 0 25em;
+}
+
+
+.newAppFormHolder Label{
+-fx-font-size:1.2em;
+}
+
+.newAppFormHolder TextField{
+-fx-font-size:1.2em;
+}
+.newAppFormHolder ComboBox{
+-fx-font-size:1.2em;
+}
+
 

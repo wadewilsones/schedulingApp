@@ -62,6 +62,7 @@ public class LoginController implements Initializable {
      * Get current user data
      */
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
