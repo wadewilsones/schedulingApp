@@ -193,7 +193,6 @@ public class AppointmentsControll implements Initializable {
         catch(Exception e){
             errorHolder.setText("Can't delete selected Appointment");
         }
-
     }
 }
 
