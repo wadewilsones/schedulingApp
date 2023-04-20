@@ -8,5 +8,6 @@ module schedulingApp {
 
     opens main.controllers to javafx.fxml, javafx.graphics;
     opens main.controllers.adding to javafx.fxml, javafx.graphics;
+    opens main.controllers.modifying to javafx.fxml, javafx.graphics;
     opens main to javafx.fxml, javafx.graphics;
 }

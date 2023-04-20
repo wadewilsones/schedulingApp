@@ -47,7 +47,7 @@
             </TableView>
                 <HBox spacing="30" styleClass="AptBtnContainer">
                     <Button onMouseClicked="#addNewAppointment">Add Appointment</Button>
-                    <Button>Update Appointment</Button>
+                    <Button onMouseClicked="#updateAppointmnet">Update Appointment</Button>
                     <Button id="DeleteBtn" onMouseClicked="#deleteSelectedAppointment">Delete Appointment</Button>
                 </HBox>
             </FlowPane>

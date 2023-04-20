@@ -35,20 +35,6 @@ import java.util.TimeZone;
  */
 public class AddingAppointment implements Initializable {
 
-
-    public void CancelAddingAppoitment(MouseEvent mouseEvent) throws IOException {
-        /**
-         * Transfer user to Appointment table view
-         */
-
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/appointments.fxml"));
-        Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        stage.setTitle("Dashboard - Customers");
-        Parent root = (Parent) fxmlLoader.load();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
     /**
      * Fields of Add New Appointment Form
      */
@@ -143,7 +129,6 @@ public class AddingAppointment implements Initializable {
                         convertedContact = allContactsData.getInt("Contact_ID");
                         System.out.println("Selected name " + contact.getValue() + " current id" + convertedContact);
                     }
-
                 }
 
                 /**Date to LocalDateTime*/
@@ -169,6 +154,22 @@ public class AddingAppointment implements Initializable {
             ErrorHolder.setText("Can't add a new appointment!");
             System.out.println(e.getMessage());
         }
+    }
+
+    /**
+     * Cancel Adding Appointment
+     */
+    public void CancelAddingAppoitment(MouseEvent mouseEvent) throws IOException {
+        /**
+         * Transfer user to Appointment table view
+         */
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/appointments.fxml"));
+        Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        stage.setTitle("Dashboard - Customers");
+        Parent root = (Parent) fxmlLoader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }
 

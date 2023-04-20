@@ -62,6 +62,9 @@ public class AppointmentsControll implements Initializable {
     @FXML
     public Text notificationHolder;
 
+    static public Appointments selectedApp;
+
+
     /**
      * Hold current ID value
      */
@@ -185,7 +188,7 @@ public class AppointmentsControll implements Initializable {
     public void deleteSelectedAppointment(MouseEvent mouseEvent) {
 
         //Get selected Appointment
-        Appointments selectedApp = AppointmentView.getSelectionModel().getSelectedItem();
+        selectedApp = AppointmentView.getSelectionModel().getSelectedItem();
         try{
             DataPool.deleteAppointment(selectedApp);
             notificationHolder.setText( "Appointment with ID " + selectedApp.getAppointmentId()+ " and title: " + selectedApp.getTitle() + " was canceled");
@@ -193,6 +196,23 @@ public class AppointmentsControll implements Initializable {
         catch(Exception e){
             errorHolder.setText("Can't delete selected Appointment");
         }
+    }
+
+    /**
+     * Handle appointment update
+     */
+
+    public void updateAppointmnet(MouseEvent mouseEvent) throws Exception{
+        // selected app
+        selectedApp = AppointmentView.getSelectionModel().getSelectedItem();
+
+        //Display  modify form
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/modifyAppointment.fxml"));
+        Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        stage.setTitle("Add New Appointment");
+        Parent root = (Parent) fxmlLoader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }
 
