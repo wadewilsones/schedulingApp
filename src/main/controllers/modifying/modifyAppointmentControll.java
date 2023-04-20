@@ -1,5 +1,6 @@
 package main.controllers.modifying;
 
+import dbhelper.DatabaseRequests;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +18,7 @@ import main.controllers.AppointmentsControll;
 import main.models.Appointments;
 
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 import static main.controllers.AppointmentsControll.selectedApp;
@@ -74,12 +76,30 @@ public class modifyAppointmentControll implements Initializable {
         title.setText(selectedApp.getTitle());
         description.setText(selectedApp.getDescription());
         location.setText(selectedApp.getLocation());
-        //contact.setValue(selectedApp.);
+        /**
+         * Fill out all Contacts data
+         */
+        try{
+            ResultSet result = DatabaseRequests.getAllContacts();
+            while(result.next()){
+                String contactName = result.getString("Contact_Name");
+                int contactIDdB = result.getInt("Contact_ID");
+                contact.getItems().add(contactName);
+                    if(selectedApp.getContact_ID() ==  contactIDdB){
+                        contact.setPromptText(contactName);
+                    }
+
+            }
+        }
+        catch(Exception e){
+            ErrorHolder.setText("Can't fetch contacts");
+        }
+
         type.setText(selectedApp.getType());
-        //startDate.setDayCellFactory();
-        //startTime;
-        //endDate;
-        //endTime;
+        startDate.setValue(selectedApp.getStartDate().toLocalDate());
+        startTime.setText(selectedApp.getStartDate().toLocalTime().toString());
+        endDate.setValue(selectedApp.getEndDate().toLocalDate());
+        endTime.setText(selectedApp.getEndDate().toLocalTime().toString());
        customerID.setText(String.valueOf(selectedApp.getCustomer_ID()));
        userID.setText(String.valueOf(selectedApp.getUser_ID()));
 
