@@ -252,15 +252,21 @@ import java.time.LocalDateTime;
     public static ResultSet getFilteredDivision(String Country) throws  Exception{
 
         ResultSet result = null;
+
+        System.out.println("Got input" + Country);
+
         PreparedStatement countries = Database.connection.prepareStatement("SELECT Country, Country_ID FROM countries WHERE Country = ?;");
         countries.setString(1, Country);
         ResultSet returnedCountries  = countries.executeQuery();
 
         while(returnedCountries.next()){
             int targetCountry = returnedCountries.getInt("Country_ID");
+            System.out.println("Got input " + Country + ", ID:" + targetCountry);
+
             PreparedStatement getCustomers = Database.connection.prepareStatement("SELECT Division, Division_ID FROM first_level_divisions WHERE Country_ID = ?;");
             getCustomers.setInt(1,targetCountry);
             result  = getCustomers.executeQuery();
+
         }
         return result;
     }

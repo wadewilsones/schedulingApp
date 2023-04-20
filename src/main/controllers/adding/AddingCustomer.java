@@ -79,31 +79,25 @@ public class AddingCustomer implements Initializable {
 
     public void filterDivision(ActionEvent actionEvent)throws Exception {
 
-        Object selectedCountry = country.getSelectionModel().getSelectedItem();
-        System.out.println(selectedCountry.toString());
+        Object selectedCountry = country.getSelectionModel().getSelectedItem().toString();
 
-        /**
-         *         if(country.getSelectionModel().getSelectedItem){
-         *          divisions = DatabaseRequests.getFilteredDivision("U.S");
-         *
-         *          }
-         *          else if(country.getValue().equals("UK")){
-         *          divisions = DatabaseRequests.getFilteredDivision("UK");
-         *          }
-         *          else if(country.getValue().equals("Canada")){
-         *          divisions = DatabaseRequests.getFilteredDivision("Canada");
-         *          }
-         *          else{
-         *          divisions = DatabaseRequests.getFilteredDivision("All");
-         *          }
-         *
-         *          while(divisions.next()){
-         *          division.getItems().add(divisions.getString("Division"));
-         *          }
-         *
-         *          }
-         */
+        ResultSet divisions = null;
 
+        division.getItems().clear(); // reset all comboBox values
+
+            if(selectedCountry.equals("U.S")){
+               divisions = DatabaseRequests.getFilteredDivision("U.S");
+            }
+            else if(selectedCountry.equals("UK")){
+                divisions = DatabaseRequests.getFilteredDivision("UK");
+            }
+            else if(selectedCountry.equals("Canada")){
+                divisions = DatabaseRequests.getFilteredDivision("Canada");
+            }
+
+            while(divisions.next()){
+            division.getItems().add(divisions.getString("Division"));
+        }
 
     }
 
