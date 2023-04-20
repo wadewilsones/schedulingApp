@@ -72,8 +72,16 @@ public class DataPool {
      * Update appointment on the list
      */
 
-    static public void updateAppointment( int appIndex, Appointments selectedApp){
+    static public void updateAppointment( int appIndex, Appointments selectedApp) throws Exception {
         allAppointments.set(appIndex, selectedApp);
+        //Update Database
+        try{
+            DatabaseRequests.updateAppointmnet(selectedApp);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            throw new Exception("Can't update appointment!");
+        }
+
     }
 
 

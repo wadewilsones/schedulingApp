@@ -147,7 +147,6 @@ import java.time.LocalDateTime;
      */
     static public void addNewAppointemntToDB(Appointments appointment){
         try{
-           // Database.startConnection();
             PreparedStatement createApptms = Database.connection.prepareStatement("INSERT INTO appointments(Appointment_ID, Title, Description, Location, Type,Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             /**Fill out variables with actual data*/
@@ -185,6 +184,32 @@ import java.time.LocalDateTime;
     }
 
     /**
+     * Update appointment
+     */
+
+    public static void updateAppointmnet(Appointments appointment) throws Exception{
+        System.out.println(appointment.getStartDate());
+        PreparedStatement createApptms = Database.connection.prepareStatement(
+                "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, Contact_ID = ? WHERE Appointment_Id = ?;");
+
+        /**Fill out variables with actual data*/
+        createApptms.setString(1, appointment.getTitle()); //title
+        createApptms.setString(2, appointment.getDescription()); //Description
+        createApptms.setString(3, appointment.getLocation()); //Location
+        createApptms.setString(4, appointment.getType()); //Type
+        createApptms.setTimestamp(5, Timestamp.valueOf(appointment.getStartDate())); //start date
+        createApptms.setTimestamp(6, Timestamp.valueOf(appointment.getEndDate())); //end date
+        createApptms.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now())); // last updated
+        createApptms.setString(8, currentUsername); // updated By
+        createApptms.setInt(9, appointment.getCustomer_ID()); //customer id
+        createApptms.setInt(10, appointment.getContact_ID()); //contact id
+        createApptms.setInt(11, appointment.getAppointmentId()); // app id
+
+        /**Execute query*/
+        createApptms.executeUpdate();
+    }
+
+    /**
      * Delete appointment
      */
 
@@ -193,4 +218,7 @@ import java.time.LocalDateTime;
         delApp.setInt(1, selectedApp.getAppointmentId());
         delApp.executeUpdate();
     }
+
+
+
 }
