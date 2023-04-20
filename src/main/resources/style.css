@@ -129,4 +129,24 @@
 -fx-font-size:1.2em;
 }
 
+/*ADD AND UPDATE CUSTOMER FORMS*/
+
+.newCustomerHeadingContainer{
+-fx-padding: 2em 20em 0em;
+}
+
+.AddCustomerHeader{
+-fx-font-weight:600;
+-fx-font-size:1.8em;
+-fx-text-alignment: center;
+}
+
+.newCustomerFormHolder{
+-fx-padding: 0em 15em;
+}
+
+.newCustomerFormHolder VBox{
+-fx-padding: 0.5em 0;
+}
+
 

@@ -33,7 +33,7 @@
                 <TableView fx:id="CustomerView">
                     <columns>
                         <TableColumn text="Customer_ID " fx:id="Customer_ID" prefWidth="170"></TableColumn>
-                        <TableColumn text="Customer_Name"  fx:id="Title" prefWidth="100"></TableColumn>
+                        <TableColumn text="Customer_Name"  fx:id="Customer_Name" prefWidth="100"></TableColumn>
                         <TableColumn text="Address" fx:id="Address" prefWidth="100"></TableColumn>
                         <TableColumn text="Postal_Code" fx:id="Postal_Code" prefWidth="100"></TableColumn>
 
@@ -47,7 +47,7 @@
                     </columns>
                 </TableView>
                 <HBox spacing="30" styleClass="AptBtnContainer">
-                    <Button>Add Customer</Button>
+                    <Button onMouseClicked="#HandleAddingCustomerBtnClick">Add Customer</Button>
                     <Button>Update Customer Info</Button>
                     <Button id="DeleteBtn">Delete Customers</Button>
                 </HBox>

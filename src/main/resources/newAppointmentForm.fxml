@@ -12,14 +12,15 @@
           fx:controller="main.controllers.adding.AddingAppointment"
           prefHeight="1000.0" prefWidth="1000.0" stylesheets="@./style.css">
 
-    <FlowPane  GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass = "newAppHeadingContainer" alignment="CENTER">
+    <VBox  GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass = "newAppHeadingContainer" alignment="CENTER" spacing="10">
         <Text styleClass="DashboardTableheaders" textAlignment="CENTER">Add New Appointment</Text>
-    </FlowPane>
+        <Text fx:id="ErrorHolder" styleClass="errorStyle"></Text>
+    </VBox>
             <GridPane  styleClass="newAppFormHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" GridPane.columnIndex="1">
 
                 <VBox  GridPane.rowIndex="1" spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="3">
                     <Label>Appointment_ID</Label>
-                    <Text fx:id="ErrorHolder"  styleClass="errorStyle"></Text>
+
                     <TextField disable="true" promptText="Auto-Generated" fx:id="generated_id"></TextField>
                 </VBox>
 

@@ -34,9 +34,10 @@ public class DataPool {
      * Duplicates checking
      */
 
-    static public void testingForDuplicates(int id, Object newAdding) throws Exception{
+    static public void testingForDuplicates(int id, Object newAdding) throws Exception {
 
         if(newAdding instanceof Appointments){
+
             for(int i = 0; i < allAppointments.size(); i++){
                 if(id == allAppointments.get(i).getAppointmentId()){
                     deleteAppointment(allAppointments.get(i)); // delete old appointment
@@ -44,6 +45,7 @@ public class DataPool {
             }
         }
         else if(newAdding instanceof Customers){
+            System.out.println("Testing Customers");
             for(int i = 0; i < allCustomers.size(); i++){
                 if(id == allCustomers.get(i).getCustomer_ID()){
                     deleteCustomer(allCustomers.get(i)); // delete old customer

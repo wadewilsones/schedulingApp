@@ -47,6 +47,8 @@ public class CustomersController implements Initializable {
     @FXML
     private TableColumn  <Customers, String> Created_By;
     @FXML
+    private TableColumn  <Customers,LocalDateTime> Last_Update;
+    @FXML
     private TableColumn  <Customers,String> Last_Updated_By;
     @FXML
     private TableColumn   <Customers,Integer> Division_ID;
@@ -58,6 +60,7 @@ public class CustomersController implements Initializable {
     public Text notificationHolder;
 
     static public Customers selectedCustomer;
+    static public int GeneratedCustomerId = 0;
 
 
     /**
@@ -68,7 +71,7 @@ public class CustomersController implements Initializable {
 
         try{
             //Get data from DB
-            ResultSet result = DatabaseRequests.getAllContacts();
+            ResultSet result = DatabaseRequests.loadCustomerData();
 
             //Set up variables
             while(result.next()){
@@ -78,20 +81,21 @@ public class CustomersController implements Initializable {
                 String address = result.getString("Address");
                 String postal = result.getString("Postal_code");
                 String phone = result.getString("Phone");
-                LocalDateTime createdDate = result.getTimestamp("Created_Date").toLocalDateTime();
+                LocalDateTime createdDate = result.getTimestamp("Create_Date").toLocalDateTime();
                 String createdBy = result.getString("Created_By");
                 LocalDateTime lastUpdate = result.getTimestamp("Last_Update").toLocalDateTime();
+
                 String updatedBy = result.getString("Last_Updated_By");
                 int divID = result.getInt("Division_ID");
 
                 //Create new Customer
 
-                Customers newCustomer = new Customers(customerId,custName,address,postal,phone,createdDate, createdBy,lastUpdate,updatedBy,divID);
-
+                Customers newCustomer = new Customers(customerId,custName,address,postal,phone,createdDate,createdBy,lastUpdate,updatedBy,divID);
+                System.out.println(newCustomer.getLast_Update());
                 //Check for duplicates
+                DataPool.testingForDuplicates(customerId,newCustomer);
                 DataPool.addCustomerToTheList(newCustomer);
-               //DataPool.testingForDuplicates(customerId,newCustomer);
-
+                GeneratedCustomerId = customerId + 1; // increase Customer ID
             }
 
 
@@ -108,6 +112,7 @@ public class CustomersController implements Initializable {
 
             Create_Date.setCellValueFactory(data -> data.getValue().getSimplecreateDate());
             Created_By.setCellValueFactory(data-> data.getValue().getSimpleCreatedBy());
+            Last_Update.setCellValueFactory(data->data.getValue().getSimplelastUpdate());
             Last_Updated_By.setCellValueFactory(data-> data.getValue().getSimpleUpdatedBy());
 
             Division_ID.setCellValueFactory(data -> data.getValue().getSimpleDivId().asObject());
@@ -119,6 +124,8 @@ public class CustomersController implements Initializable {
 
 
     }
+
+
 
     /**
      * Transfer user to Appointment table view
@@ -134,4 +141,15 @@ public class CustomersController implements Initializable {
     }
 
 
+    /**
+     * Transfer user to Adding Customer form table view
+     */
+    public void HandleAddingCustomerBtnClick(MouseEvent mouseEvent) throws Exception{
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/addCustomerForm.fxml"));
+        Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        stage.setTitle("Add New Customer");
+        Parent root = (Parent) fxmlLoader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 }

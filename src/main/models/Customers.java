@@ -29,8 +29,8 @@ public class Customers {
      * Constructor
      */
 
-    public Customers(int Customer_ID, String customer_Name, String address, String postal_code, String phone, LocalDateTime created_Date, String created_By, LocalDateTime last_Update, String last_Update_By, int division_ID) {
-        Customer_ID = Customer_ID;
+    public Customers(int customer_ID, String customer_Name, String address, String postal_code, String phone, LocalDateTime created_Date, String created_By, LocalDateTime last_Update, String last_Update_By, int division_ID) {
+        Customer_ID = customer_ID;
         Customer_Name = customer_Name;
         Address = address;
         Postal_code = postal_code;

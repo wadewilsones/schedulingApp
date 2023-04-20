@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="main.controllers.adding.AddingCustomer"
+          prefHeight="600.0" prefWidth="400.0" stylesheets="@./style.css">
+
+    <VBox  GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass = "newCustomerHeadingContainer" alignment="CENTER" spacing="30">
+        <Text styleClass="AddCustomerHeader" textAlignment="CENTER">Add New Customer</Text>
+        <Text fx:id="ErrorHolder"  styleClass="errorStyle"></Text>
+    </VBox>
+
+    <GridPane  styleClass="newCustomerFormHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" GridPane.columnIndex="1" >
+
+        <VBox  GridPane.rowIndex="1" spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="2">
+            <Label>Customer_ID</Label>
+            <TextField disable="true" promptText="Auto-Generated" fx:id="generated_id"></TextField>
+        </VBox>
+
+        <VBox GridPane.rowIndex="2"  spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="2" >
+            <Label>Customer Name</Label>
+            <TextField promptText="Type in title" fx:id="customer_Name"></TextField>
+        </VBox>
+
+            <HBox GridPane.rowIndex="3"  spacing="20"  GridPane.columnIndex="1" GridPane.columnSpan="2" >
+                <VBox spacing="5">
+                    <Label>Country</Label>
+                    <ComboBox promptText="Select the country" fx:id="country" onAction="#filterDivision"></ComboBox>
+                </VBox>
+                <VBox spacing="5">
+                    <Label>Division</Label>
+                    <ComboBox promptText="Select division" fx:id="division"></ComboBox>
+                </VBox>
+            </HBox>
+            <HBox GridPane.rowIndex="4"  spacing="20"  GridPane.columnIndex="1" GridPane.columnSpan="2" >
+                <VBox spacing="5">
+                    <Label>Street</Label>
+                    <TextField promptText="Type in address" fx:id="street"></TextField>
+                </VBox>
+                <VBox spacing="5">
+                    <Label>Postal Code</Label>
+                    <TextField promptText="Type in postal Code" fx:id="postalCode"></TextField>
+                </VBox>
+            </HBox>
+
+        <VBox GridPane.rowIndex="5"  spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="2">
+            <Label>Phone</Label>
+            <TextField promptText="Type in phone number" fx:id="phoneNumber"></TextField>
+        </VBox>
+
+        <HBox styleClass="AptBtnContainer" GridPane.rowIndex="11" spacing="20"  GridPane.columnIndex="1" GridPane.columnSpan="2" alignment="CENTER">
+            <Button onMouseClicked="#addCustomerBtn">Create</Button>
+            <Button onMouseClicked="#cancelAddingCustomer">Cancel</Button>
+        </HBox>
+
+    </GridPane>
+</GridPane>

@@ -227,8 +227,41 @@ import java.time.LocalDateTime;
 
     /**Return customer data from DB*/
     public static ResultSet loadCustomerData() throws  Exception{
-        PreparedStatement getCustomers = Database.connection.prepareStatement("SELECT * FROM customers ");
-         ResultSet result  = getCustomers.executeQuery();
+        PreparedStatement getCustomers = Database.connection.prepareStatement("SELECT * FROM customers;");
+        ResultSet result  = getCustomers.executeQuery();
+
+        return result;
+    }
+
+    /**Load country data*/
+    public static ResultSet getCountries() throws  Exception{
+        PreparedStatement getCustomers = Database.connection.prepareStatement("SELECT Country, Country_ID FROM countries;");
+        ResultSet result  = getCustomers.executeQuery();
+        return result;
+    }
+
+    /**Load division data*/
+    public static ResultSet getDivision() throws  Exception{
+
+        PreparedStatement getCustomers = Database.connection.prepareStatement("SELECT Division, Division_ID FROM first_level_divisions;");
+        ResultSet result  = getCustomers.executeQuery();
+        return result;
+    }
+
+    /**Load division data and filter it*/
+    public static ResultSet getFilteredDivision(String Country) throws  Exception{
+
+        ResultSet result = null;
+        PreparedStatement countries = Database.connection.prepareStatement("SELECT Country, Country_ID FROM countries WHERE Country = ?;");
+        countries.setString(1, Country);
+        ResultSet returnedCountries  = countries.executeQuery();
+
+        while(returnedCountries.next()){
+            int targetCountry = returnedCountries.getInt("Country_ID");
+            PreparedStatement getCustomers = Database.connection.prepareStatement("SELECT Division, Division_ID FROM first_level_divisions WHERE Country_ID = ?;");
+            getCustomers.setInt(1,targetCountry);
+            result  = getCustomers.executeQuery();
+        }
         return result;
     }
 

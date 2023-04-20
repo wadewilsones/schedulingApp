@@ -71,7 +71,7 @@ public class AddingAppointment implements Initializable {
     public TextField userID;
 
     /**
-     * Error displayer
+     * Error display
      */
 
     @FXML
@@ -97,7 +97,6 @@ public class AddingAppointment implements Initializable {
             ResultSet result = DatabaseRequests.getAllContacts();
             while(result.next()){
                 String contactName = result.getString("Contact_Name");
-                System.out.println(contactName);
                 contact.getItems().add(contactName);
             }
         }
