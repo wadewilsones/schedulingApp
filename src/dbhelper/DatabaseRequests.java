@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
      * Getters and setters for  @param currentUserID
      */
     static public void setUserId(int userID){
-        currentUserID = currentUserID;
+        currentUserID = userID;
     }
 
     static public int getUserID(){
@@ -54,8 +54,8 @@ import java.time.LocalDateTime;
     }
 
 
+
     /**
-     *
      * This method return true if username and password matched with record in the database.
      */
     static public boolean authenticate(String username, String password){
@@ -80,7 +80,8 @@ import java.time.LocalDateTime;
                 size++;
                 if(size == 1){
                     setAuthenticated(true);
-                    setUserId(results.getInt("User_ID")); // set up current user
+                    // set up current user
+                    setUserId(results.getInt("User_ID"));
                     setUsername(results.getString("User_Name"));
                     return true;
                 }
@@ -105,7 +106,6 @@ import java.time.LocalDateTime;
     static public ResultSet getAppointements(){
         ResultSet results = null;
         try{
-            Database.startConnection();
             PreparedStatement getApptms = Database.connection.prepareStatement("SELECT * FROM appointments;");
             results = getApptms.executeQuery();
         }
@@ -115,13 +115,39 @@ import java.time.LocalDateTime;
         return results;
     };
 
+    /**
+     * Check if CustomerID is correct
+     * */
+    static public boolean getCustomerIdList(int id){
+        boolean isCorrectId = false;
+        try{
+
+            PreparedStatement getApptms = Database.connection.prepareStatement("SELECT * FROM Customers WHERE Customer_ID = ?;");
+            getApptms.setInt(1, id);
+            ResultSet results = getApptms.executeQuery();
+
+            while(results.next()){
+                if(id == results.getInt("Customer_ID")){
+                    isCorrectId = true;
+                }
+                else{
+                    isCorrectId = false;
+                }
+
+            }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return isCorrectId;
+    }
 
     /**
      * Add new Appointment data to Database
      */
     static public void addNewAppointemntToDB(Appointments appointment){
         try{
-            Database.startConnection();
+           // Database.startConnection();
             PreparedStatement createApptms = Database.connection.prepareStatement("INSERT INTO appointments(Appointment_ID, Title, Description, Location, Type,Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             /**Fill out variables with actual data*/
@@ -138,7 +164,7 @@ import java.time.LocalDateTime;
             createApptms.setString(11, currentUsername); // updated By
             createApptms.setInt(12, appointment.getCustomer_ID()); //customer id
             createApptms.setInt(13, currentUserID); // updated By
-            createApptms.setInt(14, appointment.getContact_ID()); //customer id
+            createApptms.setInt(14, appointment.getContact_ID()); //contact id
 
             /**Execute query*/
             createApptms.executeUpdate();
@@ -148,4 +174,23 @@ import java.time.LocalDateTime;
         }
     }
 
+    /**
+     * Fetch all contacts
+     */
+    static public ResultSet getAllContacts() throws Exception {
+
+        PreparedStatement getContacts = Database.connection.prepareStatement("SELECT * FROM contacts");
+        ResultSet results = getContacts.executeQuery();
+        return results;
+    }
+
+    /**
+     * Delete appointment
+     */
+
+    public static void deleteAppointment(Appointments selectedApp) throws Exception {
+        PreparedStatement delApp = Database.connection.prepareStatement("DELETE FROM appointments WHERE Appointment_ID = ? ");
+        delApp.setInt(1, selectedApp.getAppointmentId());
+        delApp.executeUpdate();
+    }
 }

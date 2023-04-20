@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.Main;
 import main.models.Appointments;
@@ -54,6 +55,12 @@ public class AppointmentsControll implements Initializable {
     private TableColumn  <Appointments,Integer> Cust_ID;
     @FXML
     private TableColumn   <Appointments,Integer> User_ID;
+
+    @FXML
+    public Text errorHolder;
+
+    @FXML
+    public Text notificationHolder;
 
     /**
      * Hold current ID value
@@ -170,6 +177,23 @@ public class AppointmentsControll implements Initializable {
         Parent root = (Parent) fxmlLoader.load();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    /**
+     * Handle Delete Appointment event
+     */
+    public void deleteSelectedAppointment(MouseEvent mouseEvent) {
+
+        //Get selected Appointment
+        Appointments selectedApp = AppointmentView.getSelectionModel().getSelectedItem();
+        try{
+            DataPool.deleteAppointment(selectedApp);
+            notificationHolder.setText( "Appointment with ID " + selectedApp.getAppointmentId()+ " and title: " + selectedApp.getTitle() + " was canceled");
+        }
+        catch(Exception e){
+            errorHolder.setText("Can't delete selected Appointment");
+        }
+
     }
 }
 

@@ -40,7 +40,7 @@
 
                 <VBox GridPane.rowIndex="5"  spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="3">
                     <Label>Contact</Label>
-                    <ComboBox fx:id="contact">
+                    <ComboBox fx:id="contact" promptText="Select">
                     </ComboBox>
                 </VBox>
 

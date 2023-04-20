@@ -22,6 +22,7 @@ import main.utils.Validation;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -103,6 +104,23 @@ public class AddingAppointment implements Initializable {
         generated_id.setText(String.valueOf(AppointmentsControll.getAppointmentIdGenerator()));
         userID.setText(String.valueOf(DatabaseRequests.getUserID())); // set up userID
 
+        /**
+         * Fill out all Contacts data
+         */
+        try{
+            ResultSet result = DatabaseRequests.getAllContacts();
+            while(result.next()){
+                String contactName = result.getString("Contact_Name");
+                System.out.println(contactName);
+                contact.getItems().add(contactName);
+            }
+        }
+        catch(Exception e){
+            ErrorHolder.setText("Can't fetch contacts");
+        }
+
+
+
     }
 
     public void addNewAppointmentToList(MouseEvent mouseEvent) {
@@ -116,8 +134,18 @@ public class AddingAppointment implements Initializable {
                 /**Converting input to right type*/
                 int id = AppointmentsControll.getAppointmentIdGenerator();
 
-                /**Contact */
+                /**Translate Name to Id*/
+                ResultSet allContactsData = DatabaseRequests.getAllContacts();
                 int convertedContact = 1;
+                System.out.println(contact.getValue());
+                while(allContactsData.next()){
+                    if(contact.getValue().equals(allContactsData.getString("Contact_Name"))){
+                        convertedContact = allContactsData.getInt("Contact_ID");
+                        System.out.println("Selected name " + contact.getValue() + " current id" + convertedContact);
+                    }
+
+                }
+
                 /**Date to LocalDateTime*/
                 LocalDateTime convertedStartDate = TimeHandling.convertDateToLocalDateTime(startDate.getValue(), startTime.getText());
                 LocalDateTime convertedEndDate = TimeHandling.convertDateToLocalDateTime(endDate.getValue(), endTime.getText());

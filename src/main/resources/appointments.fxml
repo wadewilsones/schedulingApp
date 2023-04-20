@@ -22,9 +22,11 @@
 
         <center>
     <GridPane styleClass="Wrapper_ApptTable_AndHeading" alignment="CENTER">
-            <FlowPane  GridPane.rowIndex="1" GridPane.columnSpan="3" GridPane.columnIndex="1" styleClass = "TableHeadingWrapper" alignment="CENTER">
+            <VBox  GridPane.rowIndex="1" GridPane.columnSpan="3" GridPane.columnIndex="1" styleClass = "TableHeadingWrapper" alignment="CENTER" spacing="20">
                 <Text styleClass="DashboardTableheaders">Appointments</Text>
-            </FlowPane>
+                <Text GridPane.rowIndex="2" styleClass="errorStyle" fx:id="errorHolder"></Text>
+                <Text GridPane.rowIndex="2" styleClass="notificationStyle" fx:id="notificationHolder"></Text>
+            </VBox>
 
             <FlowPane  styleClass="TableViewHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" alignment="CENTER">
             <TableView fx:id="AppointmentView">
@@ -46,7 +48,7 @@
                 <HBox spacing="30" styleClass="AptBtnContainer">
                     <Button onMouseClicked="#addNewAppointment">Add Appointment</Button>
                     <Button>Update Appointment</Button>
-                    <Button id="DeleteBtn">Delete Appointment</Button>
+                    <Button id="DeleteBtn" onMouseClicked="#deleteSelectedAppointment">Delete Appointment</Button>
                 </HBox>
             </FlowPane>
 

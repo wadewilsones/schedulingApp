@@ -3,7 +3,11 @@
 .errorStyle{
 -fx-font-size:1.3em;
 -fx-fill: #FF4F28;
+}
 
+.notificationStyle{
+-fx-font-size:1.3em;
+-fx-fill: #19A7CE;
 }
 
 /*LOGIN*/

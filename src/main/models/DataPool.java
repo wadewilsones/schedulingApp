@@ -33,7 +33,7 @@ public class DataPool {
      * Duplicates checking
      */
 
-    static public void testingForDuplicates(int id){
+    static public void testingForDuplicates(int id) throws Exception{
 
         for(int i = 0; i < allAppointments.size(); i++){
             if(id == allAppointments.get(i).getAppointmentId()){
@@ -47,7 +47,7 @@ public class DataPool {
      * Add appointment to the list
      */
 
-    static public void addAppointmentToTheList(Appointments newApp){
+    static public void addAppointmentToTheList(Appointments newApp) throws  Exception{
         allAppointments.add(newApp);
         DatabaseRequests.addNewAppointemntToDB(newApp);
     }
@@ -56,8 +56,16 @@ public class DataPool {
      * Delete appointment from the list
      */
 
-    static public void deleteAppointment(Appointments selectedApp){
+    static public void deleteAppointment(Appointments selectedApp) {
+
         allAppointments.remove(selectedApp);
+        try{
+            DatabaseRequests.deleteAppointment(selectedApp);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**

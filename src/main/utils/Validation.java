@@ -1,5 +1,7 @@
 package main.utils;
 
+import dbhelper.DatabaseRequests;
+
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -47,21 +49,24 @@ public class Validation {
 
         try{
             /*Null check*/
-
             if(title.equals("") || descr.equals("") || loc.equals("") || type.equals("") || startTime.equals("") || cusId.equals("") || endTime.equals("") || start == null || end == null){
                 setValidationValue(false);
                 setErrorMessageValue("Fill out all fields!");
             }
             else{
-
-                /**Check if customerID is correct*/
-                Integer.parseInt(cusId);
-
                 /**Convert date and time format*/
                 try{
                     TimeHandling.convertDateToLocalDateTime(start, startTime);
                     TimeHandling.convertDateToLocalDateTime(end, endTime);
-                    setValidationValue(true); // validation passed
+                    /**Check if customerID is correct*/
+                    if(DatabaseRequests.getCustomerIdList(Integer.parseInt(cusId))){
+                        setValidationValue(true); // validation passed
+                    }
+                    else{
+                        setErrorMessageValue("Wrong Customer_ID value!");
+                        setValidationValue(false);
+                    }
+
                 }
                 catch (Exception e){
                     setValidationValue(false);
