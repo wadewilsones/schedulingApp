@@ -118,7 +118,7 @@ public class AppointmentsControll implements Initializable {
                 Appointments newAppointment = new Appointments(appId,title,descr,loc,type,start,end,createdDate,crBy,convertedLastUpdateDate,l_by_upd,cusId,uId,contId);
 
                 /**Check for duplicates and include appointment if no duplicates were detected*/
-                DataPool.testingForDuplicates(appId);
+                DataPool.testingForDuplicates(appId, newAppointment);
 
                 /** Add new Appointment to DataPool class, Appointment list*/
                 DataPool.addAppointmentToTheList(newAppointment);

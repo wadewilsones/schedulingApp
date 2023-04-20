@@ -1,6 +1,7 @@
 package main.models;
 
 import dbhelper.DatabaseRequests;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ObservableListValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,14 +34,23 @@ public class DataPool {
      * Duplicates checking
      */
 
-    static public void testingForDuplicates(int id) throws Exception{
+    static public void testingForDuplicates(int id, Object newAdding) throws Exception{
 
-        for(int i = 0; i < allAppointments.size(); i++){
-            if(id == allAppointments.get(i).getAppointmentId()){
-                deleteAppointment(allAppointments.get(i)); // delete old appointment
+        if(newAdding instanceof Appointments){
+            for(int i = 0; i < allAppointments.size(); i++){
+                if(id == allAppointments.get(i).getAppointmentId()){
+                    deleteAppointment(allAppointments.get(i)); // delete old appointment
+                }
             }
         }
+        else if(newAdding instanceof Customers){
+            for(int i = 0; i < allCustomers.size(); i++){
+                if(id == allCustomers.get(i).getCustomer_ID()){
+                    deleteCustomer(allCustomers.get(i)); // delete old customer
+                }
+        }
 
+     }
     }
 
     /**
@@ -85,13 +95,22 @@ public class DataPool {
     }
 
 
-
     /*CUSTOMER SECTION*/
+
+    /**
+     * Get all customers
+     */
+
+    static public ObservableList<Customers> getAllCustomers(){
+        return allCustomers;
+    }
+
 
     /**
      * Add customer to the list
      */
     static public void addCustomerToTheList(Customers newCustomer){
+
         allCustomers.add(newCustomer);
     }
 

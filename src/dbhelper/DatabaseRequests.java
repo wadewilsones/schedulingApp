@@ -100,6 +100,9 @@ import java.time.LocalDateTime;
         return getAuthenticated(); // return result of authentication true/false
     }
 
+
+    /**APPOINTMENT SECTION*/
+
     /**
      * Get data from appointment DB table
      */
@@ -219,6 +222,14 @@ import java.time.LocalDateTime;
         delApp.executeUpdate();
     }
 
+    /**CUSTOMER SECTION*/
 
+
+    /**Return customer data from DB*/
+    public static ResultSet loadCustomerData() throws  Exception{
+        PreparedStatement getCustomers = Database.connection.prepareStatement("SELECT * FROM customers ");
+         ResultSet result  = getCustomers.executeQuery();
+        return result;
+    }
 
 }

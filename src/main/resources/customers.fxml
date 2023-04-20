@@ -23,12 +23,14 @@
 
     <center>
         <GridPane styleClass="Wrapper_ApptTable_AndHeading" alignment="CENTER">
-            <FlowPane  GridPane.rowIndex="1" GridPane.columnSpan="3" GridPane.columnIndex="1" styleClass = "TableHeadingWrapper" alignment="CENTER">
+            <VBox  GridPane.rowIndex="1" GridPane.columnSpan="3" GridPane.columnIndex="1" styleClass = "TableHeadingWrapper" alignment="CENTER" spacing="20">
                 <Text styleClass="DashboardTableheaders">Customers</Text>
-            </FlowPane>
+                <Text GridPane.rowIndex="2" styleClass="errorStyle" fx:id="errorHolder"></Text>
+                <Text GridPane.rowIndex="2" styleClass="notificationStyle" fx:id="notificationHolder"></Text>
+            </VBox>
 
             <FlowPane  styleClass="TableViewHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" alignment="CENTER">
-                <TableView fx:id="AppointmentView">
+                <TableView fx:id="CustomerView">
                     <columns>
                         <TableColumn text="Customer_ID " fx:id="Customer_ID" prefWidth="170"></TableColumn>
                         <TableColumn text="Customer_Name"  fx:id="Title" prefWidth="100"></TableColumn>
