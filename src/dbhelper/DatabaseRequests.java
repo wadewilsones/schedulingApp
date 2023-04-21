@@ -261,6 +261,38 @@ import java.time.LocalDateTime;
 
     }
 
+    public static void updateCustomerinDB(Customers updatedCustomer) throws  Exception{
+
+        /**Prepare statement
+         */
+        try{
+            int Customer_ID = updatedCustomer.getCustomer_ID();
+            String name = updatedCustomer.getCustomer_Name();
+            String address = updatedCustomer.getAddress();
+            String phone = updatedCustomer.getPhone();
+            String postal = updatedCustomer.getPostal_code();
+            int divisionId = updatedCustomer.getDivision_ID();
+            LocalDateTime lastUpdated = updatedCustomer.getLast_Update();
+            String updatedBy = updatedCustomer.getLast_Update_By();
+
+            PreparedStatement getCustomers = Database.connection.prepareStatement("UPDATE customers Set Customer_ID =?, Customer_Name=?, Address=?, Postal_Code=?,  Last_Update=?, Last_Updated_By=?, Division_ID=?, Phone=? WHERE Customer_ID = ?;");
+            //Fill variables with data
+            getCustomers.setInt(1, Customer_ID);
+            getCustomers.setString(2, name);
+            getCustomers.setString(3, address);
+            getCustomers.setString(4, postal);
+            getCustomers.setTimestamp(5, Timestamp.valueOf(lastUpdated));
+            getCustomers.setString(6, updatedBy);
+            getCustomers.setInt(7, divisionId);
+            getCustomers.setString(8, phone);
+            getCustomers.setInt(9, Customer_ID);
+            getCustomers.executeUpdate();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     /**Return customer data from DB*/
     public static ResultSet loadCustomerData() throws  Exception{
@@ -280,7 +312,7 @@ import java.time.LocalDateTime;
     /**Load division data*/
     public static ResultSet getDivision() throws  Exception{
 
-        PreparedStatement getCustomers = Database.connection.prepareStatement("SELECT Division, Division_ID FROM first_level_divisions;");
+        PreparedStatement getCustomers = Database.connection.prepareStatement("SELECT Division, Division_ID, Country_ID FROM first_level_divisions;");
         ResultSet result  = getCustomers.executeQuery();
         return result;
     }

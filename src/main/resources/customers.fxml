@@ -48,7 +48,7 @@
                 </TableView>
                 <HBox spacing="30" styleClass="AptBtnContainer">
                     <Button onMouseClicked="#HandleAddingCustomerBtnClick">Add Customer</Button>
-                    <Button>Update Customer Info</Button>
+                    <Button onMouseClicked="#HandleUpdateCustomerClick">Update Customer Info</Button>
                     <Button id="DeleteBtn" onMouseClicked="#HandleCustomerDelete">Delete Customers</Button>
                 </HBox>
             </FlowPane>

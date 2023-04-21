@@ -152,6 +152,20 @@ public class CustomersController implements Initializable {
     }
 
     /**
+     * Transfer user to Update Customer form table view
+     */
+
+    public void HandleUpdateCustomerClick(MouseEvent mouseEvent) throws Exception{
+        selectedCustomer = CustomerView.getSelectionModel().getSelectedItem();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/updateCustomers.fxml"));
+        Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        stage.setTitle("Update Customer Information");
+        Parent root = (Parent) fxmlLoader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    /**
      * Delete Customer
      */
     public void HandleCustomerDelete(MouseEvent mouseEvent) {
@@ -167,4 +181,6 @@ public class CustomersController implements Initializable {
 
 
     }
+
+
 }

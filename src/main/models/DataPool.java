@@ -135,9 +135,7 @@ public class DataPool {
              */
             for (int i = 0; i < getAllAppointments().size(); i++) {
                 if (selectedCustomer.getCustomer_ID() == getAllAppointments().get(i).getCustomer_ID()) {
-                    System.out.println("WILL BE DELETED:" + getAllAppointments().get(i).getAppointmentId() + " " + getAllAppointments().get(i).getCustomer_ID());
                     deleteAppointment(getAllAppointments().get(i));
-
                 } else {
                     System.out.println("No appointments were find");
 
@@ -150,9 +148,16 @@ public class DataPool {
         }
 
         /**
-         * Update customer on the list
+         * Update customer on the list and in DB
          */
-        static public void updateCustomer( int custIndex, Customers selectedCustomer){
-            allCustomers.set(custIndex, selectedCustomer);
+        static public void updateCustomer(int custIndex, Customers selectedCustomer){
+            try{
+                allCustomers.set(custIndex, selectedCustomer);
+                DatabaseRequests.updateCustomerinDB(selectedCustomer);
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+
         }
     }

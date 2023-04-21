@@ -1,4 +1,4 @@
-package main.controllers.adding;
+package main.controllers.modifying;
 
 import dbhelper.DatabaseRequests;
 import javafx.event.ActionEvent;
@@ -14,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.Main;
-import main.controllers.CustomersController;
 import main.models.Customers;
 import main.models.DataPool;
 import main.utils.Validation;
@@ -25,9 +24,10 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import static main.controllers.CustomersController.GeneratedCustomerId;
+import static main.controllers.CustomersController.selectedCustomer;
 
 
-public class AddingCustomer implements Initializable {
+public class modifyCustomerController implements Initializable {
 
     /**
      * Set up Members
@@ -51,26 +51,48 @@ public class AddingCustomer implements Initializable {
     public Text ErrorHolder;
 
 
-    /**
-     * Initialize Customer ID and populate comboboxes
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        /**
+         * Set up initial values from selected customer
+         */
+        customer_Name.setText(selectedCustomer.getCustomer_Name());
+        street.setText(selectedCustomer.getAddress());
+        postalCode.setText(selectedCustomer.getPostal_code());
+        phoneNumber.setText(selectedCustomer.getPhone());
         //Get ID
-        generated_id.setPromptText("Auto-Generated: "+ GeneratedCustomerId);
+        generated_id.setPromptText("Auto-Generated: "+ selectedCustomer.getCustomer_ID());
         //Set up Division and Country
         try{
-            //Country set
-            ResultSet countries = DatabaseRequests.getCountries();
-            while(countries.next()){
-                country.getItems().add(countries.getString("Country"));
-            }
-
+            /**
+             * Intitial select division name that correlates with selected customer division
+             */
             ResultSet divisions = DatabaseRequests.getDivision();
+            int selectedCountryId = 0;
             while(divisions.next()){
                 division.getItems().add(divisions.getString("Division"));
+
+                if(selectedCustomer.getDivision_ID() == divisions.getInt("Division_ID")){
+                    division.getSelectionModel().select(divisions.getString("Division"));
+                    System.out.println("Country ID from division loop" + selectedCountryId);
+                    selectedCountryId = divisions.getInt("Country_ID");
+
+
+                }
             }
+            //Country set
+            ResultSet countries = DatabaseRequests.getCountries();
+
+            while(countries.next()){
+                country.getItems().add(countries.getString("Country")); // add all
+                if(countries.getInt("Country_ID") == selectedCountryId){
+                    country.getSelectionModel().select(countries.getString("Country"));
+                }
+
+            }
+
+
         }
         catch(Exception e){
             ErrorHolder.setText("Can't retrieve Country/Division Data: " + e.getMessage());
@@ -79,10 +101,9 @@ public class AddingCustomer implements Initializable {
     }
 
     /**
-     * Filtering division according to selected country
+     * Filter divison data
      */
-
-    public void filterDivision(ActionEvent actionEvent)throws Exception {
+    public void filterDivision(ActionEvent actionEvent) throws Exception{
 
         Object selectedCountry = country.getSelectionModel().getSelectedItem().toString();
 
@@ -90,26 +111,28 @@ public class AddingCustomer implements Initializable {
 
         division.getItems().clear(); // reset all comboBox values
 
-            if(selectedCountry.equals("U.S")){
-               divisions = DatabaseRequests.getFilteredDivision("U.S");
-            }
-            else if(selectedCountry.equals("UK")){
-                divisions = DatabaseRequests.getFilteredDivision("UK");
-            }
-            else if(selectedCountry.equals("Canada")){
-                divisions = DatabaseRequests.getFilteredDivision("Canada");
-            }
+        if(selectedCountry.equals("U.S")){
+            divisions = DatabaseRequests.getFilteredDivision("U.S");
+        }
+        else if(selectedCountry.equals("UK")){
+            divisions = DatabaseRequests.getFilteredDivision("UK");
+        }
+        else if(selectedCountry.equals("Canada")){
+            divisions = DatabaseRequests.getFilteredDivision("Canada");
+        }
 
-            while(divisions.next()){
+        while(divisions.next()){
             division.getItems().add(divisions.getString("Division"));
         }
 
     }
 
     /**
-     * Handle confirmation
+     * Handle  customer update
      */
-    public void addCustomerBtn(MouseEvent mouseEvent) {
+
+    public void updateCustomerBtn(MouseEvent mouseEvent) throws Exception {
+
         ErrorHolder.setText("");
         try{
             /**Validate*/
@@ -117,7 +140,6 @@ public class AddingCustomer implements Initializable {
             Validation customerValidation = new Validation(customer_Name.getText(), street.getText(), postalCode.getText(), phoneNumber.getText());
             if(customerValidation.getValidationValue()){
                 /**Set up additional data for customer (dates) and comboBox*/
-
                 LocalDateTime today = LocalDateTime.now();
                 /**
                  * Get divisionID by comparing selected choice and other
@@ -129,12 +151,16 @@ public class AddingCustomer implements Initializable {
                         divisionData = allDivisions.getInt("Division_ID");
                     }
                 }
-                System.out.println("This is devision Data"+ divisionData);
-                /**Add To List and Database*/
-                Customers newCustomer = new Customers(GeneratedCustomerId,customer_Name.getText(), street.getText(), postalCode.getText(), phoneNumber.getText(), today, DatabaseRequests.getUsername(), today, DatabaseRequests.getUsername(), divisionData);
 
-                DataPool.addCustomerToTheList(newCustomer);
-                System.out.println("TEST DELete customer");
+                /**Update selected customer values Database*/
+                selectedCustomer.setCustomer_Name(customer_Name.getText());
+                selectedCustomer.setAddress(street.getText());
+                selectedCustomer.setPostal_code(postalCode.getText());
+                selectedCustomer.setPhone(phoneNumber.getText());
+                selectedCustomer.setLast_Update(today);
+                selectedCustomer.setLast_Update_By(DatabaseRequests.getUsername());
+                selectedCustomer.setDivision_ID(divisionData);
+                DataPool.updateCustomer(DataPool.getAllCustomers().indexOf(selectedCustomer), selectedCustomer);
                 /**
                  * Transfer control Back to Customer Table View
                  */
@@ -144,32 +170,27 @@ public class AddingCustomer implements Initializable {
                 Parent root = (Parent) fxmlLoader.load();
                 stage.setScene(new Scene(root));
                 stage.show();
-
-
             }
             else{
                 ErrorHolder.setText(customerValidation.getErrorMessageValue());
             }
-
-
-        }
-        catch(Exception e){
+    }
+        catch (Exception e){
             System.out.println(e.getMessage());
-            //ErrorHolder.setText("Can't add a new Customer");
+        ErrorHolder.setText("Can't update customer");
         }
     }
 
+
     /**
-     * Handle canceling of adding customer
+     * Handle canceling customer modifications
      */
     public void cancelAddingCustomer(MouseEvent mouseEvent) throws Exception{
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/customers.fxml"));
         Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-        stage.setTitle("Dashoboard - Customers");
+        stage.setTitle("Dashboard - Customers");
         Parent root = (Parent) fxmlLoader.load();
         stage.setScene(new Scene(root));
         stage.show();
     }
-
-
 }
