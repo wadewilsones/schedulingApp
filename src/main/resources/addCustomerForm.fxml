@@ -52,7 +52,7 @@
 
         <VBox GridPane.rowIndex="5"  spacing="10"  GridPane.columnIndex="1" GridPane.columnSpan="2">
             <Label>Phone</Label>
-            <TextField promptText="Type in phone number" fx:id="phoneNumber"></TextField>
+            <TextField promptText=" 123-456-789" fx:id="phoneNumber"></TextField>
         </VBox>
 
         <HBox styleClass="AptBtnContainer" GridPane.rowIndex="11" spacing="20"  GridPane.columnIndex="1" GridPane.columnSpan="2" alignment="CENTER">

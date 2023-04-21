@@ -114,14 +114,22 @@ public class DataPool {
     static public void addCustomerToTheList(Customers newCustomer){
 
         allCustomers.add(newCustomer);
+        try{
+            DatabaseRequests.addNewCustomerToDb(newCustomer);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**
      * Delete customer from the list
      */
 
-    static public void deleteCustomer(Customers selectedCustomer){
+    static public void deleteCustomer(Customers selectedCustomer) throws Exception{
         allCustomers.remove(selectedCustomer);
+        DatabaseRequests.deleteCustomer(selectedCustomer);
     }
 
 

@@ -2,6 +2,7 @@ package dbhelper;
 
 
 import main.models.Appointments;
+import main.models.Customers;
 import main.models.DataPool;
 
 import java.sql.PreparedStatement;
@@ -224,6 +225,37 @@ import java.time.LocalDateTime;
 
     /**CUSTOMER SECTION*/
 
+    /**
+     * Add new Customer
+     */
+    public static void addNewCustomerToDb(Customers newCustomer) throws  Exception{
+
+        int Customer_ID =  newCustomer.getCustomer_ID();
+        String name = newCustomer.getCustomer_Name();
+        String address = newCustomer.getAddress();
+        String phone = newCustomer.getPhone();
+        String postal = newCustomer.getPostal_code();
+        LocalDateTime create_update_Date = newCustomer.getCreated_Date();
+        String created_updated_By = getUsername();
+        int divisionId = newCustomer.getDivision_ID();
+
+        PreparedStatement getCustomers = Database.connection.prepareStatement("INSERT INTO customers(Customer_ID, Customer_Name, Address, Postal_Code, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID, Phone) VALUES (?,?,?,?,?,?,?,?,?,?);");
+        //Fill variables with data
+        getCustomers.setInt(1, Customer_ID);
+        getCustomers.setString(2, name);
+        getCustomers.setString(3, address);
+        getCustomers.setString(4, postal);
+        getCustomers.setTimestamp(5, Timestamp.valueOf(create_update_Date));
+        getCustomers.setString(6, created_updated_By);
+        getCustomers.setTimestamp(7, Timestamp.valueOf(create_update_Date));
+        getCustomers.setString(8, created_updated_By);
+        getCustomers.setInt(9, divisionId);
+        getCustomers.setString(10, phone);
+
+        getCustomers.executeUpdate();
+
+    }
+
 
     /**Return customer data from DB*/
     public static ResultSet loadCustomerData() throws  Exception{
@@ -271,4 +303,12 @@ import java.time.LocalDateTime;
         return result;
     }
 
+    /**
+     * Delete Customer
+     */
+    public static void deleteCustomer(Customers selectedCustomer) throws Exception {
+        PreparedStatement delApp = Database.connection.prepareStatement("DELETE FROM customers WHERE Customer_ID = ? ");
+        delApp.setInt(1, selectedCustomer.getCustomer_ID());
+        delApp.executeUpdate();
+    }
 }

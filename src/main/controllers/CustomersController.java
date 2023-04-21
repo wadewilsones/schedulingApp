@@ -152,4 +152,21 @@ public class CustomersController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
     }
+
+    /**
+     * Delete Customer
+     */
+    public void HandleCustomerDelete(MouseEvent mouseEvent) {
+
+        selectedCustomer = CustomerView.getSelectionModel().getSelectedItem();
+        try{
+            DataPool.deleteCustomer(selectedCustomer);
+            notificationHolder.setText("Customer " + selectedCustomer.getCustomer_Name() +" was deleted.");
+        }
+        catch (Exception e){
+            errorHolder.setText("Can't Delete Customer");
+        }
+
+
+    }
 }

@@ -86,4 +86,31 @@ public class Validation {
 
     }
 
+    /**
+     * Constructor for Customers
+     */
+
+    public Validation(String name,  String street,  String postal,  String phone){
+
+        //Null check
+        if(!(name.equals("") || street.equals("") || postal.equals("") || phone.equals(""))){
+
+            String phonePattern = "\\d{3}-\\d{3}-\\d{4}";
+            String secondPhonePattern = "\\d{1,3}-\\d{3}-\\d{3}-\\d{4}";
+            if(!phone.matches(phonePattern) && !phone.matches(secondPhonePattern)){
+                setErrorMessageValue("Wrong phone number format!");
+                setValidationValue(false);
+                System.out.println("NOT VALID PHONE");
+            }
+            else{
+                setValidationValue(true);
+                System.out.println("VALID");
+            }
+        }
+        else{
+            setErrorMessageValue("Fill out all fields!");
+            setValidationValue(false);
+        }
+
+    }
 }
