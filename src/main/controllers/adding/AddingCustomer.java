@@ -130,11 +130,12 @@ public class AddingCustomer implements Initializable {
                         divisionData = allDivisions.getInt("Division_ID");
                     }
                 }
+                System.out.println("This is devision Data"+ divisionData);
                 /**Add To List and Database*/
                 Customers newCustomer = new Customers(GeneratedCustomerId,customer_Name.getText(), street.getText(), postalCode.getText(), phoneNumber.getText(), today, DatabaseRequests.getUsername(), today, DatabaseRequests.getUsername(), divisionData);
 
                 DataPool.addCustomerToTheList(newCustomer);
-
+                System.out.println("TEST DELete customer");
                 /**
                  * Transfer control Back to Customer Table View
                  */
@@ -154,7 +155,8 @@ public class AddingCustomer implements Initializable {
 
         }
         catch(Exception e){
-            ErrorHolder.setText("Can't add a new Customer");
+            System.out.println(e.getMessage());
+            //ErrorHolder.setText("Can't add a new Customer");
         }
     }
 

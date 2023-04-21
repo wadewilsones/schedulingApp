@@ -91,12 +91,12 @@ public class CustomersController implements Initializable {
                 //Create new Customer
 
                 Customers newCustomer = new Customers(customerId,custName,address,postal,phone,createdDate,createdBy,lastUpdate,updatedBy,divID);
-                System.out.println(newCustomer.getLast_Update());
+                System.out.println("HERE");
                 //Check for duplicates
-                DataPool.testingForDuplicates(customerId,newCustomer);
-                DataPool.addCustomerToTheList(newCustomer);
-                GeneratedCustomerId = customerId + 1; // increase Customer ID
-            }
+                if(!DataPool.testingForDuplicates(customerId, newCustomer))
+                        DataPool.addCustomerToTheList(newCustomer);
+                        GeneratedCustomerId = customerId + 1; // increase Customer ID
+                }
 
 
             //Set up table
@@ -124,8 +124,6 @@ public class CustomersController implements Initializable {
 
 
     }
-
-
 
     /**
      * Transfer user to Appointment table view
@@ -158,14 +156,18 @@ public class CustomersController implements Initializable {
      */
     public void HandleCustomerDelete(MouseEvent mouseEvent) {
 
-        selectedCustomer = CustomerView.getSelectionModel().getSelectedItem();
-        try{
-            DataPool.deleteCustomer(selectedCustomer);
-            notificationHolder.setText("Customer " + selectedCustomer.getCustomer_Name() +" was deleted.");
-        }
-        catch (Exception e){
-            errorHolder.setText("Can't Delete Customer");
-        }
+        System.out.println("Delete Customer was clicked");
+         selectedCustomer = CustomerView.getSelectionModel().getSelectedItem();
+         /**
+            try{
+                     DataPool.deleteCustomer(selectedCustomer);
+                     notificationHolder.setText("Customer " + selectedCustomer.getCustomer_Name() +" was deleted.");
+                  }
+                  catch (Exception e){
+                      errorHolder.setText("Can't Delete Customer!");
+                  }
+
+*/
 
 
     }

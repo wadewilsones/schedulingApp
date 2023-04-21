@@ -87,7 +87,11 @@ public class AddingAppointment implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        generated_id.setText(String.valueOf(AppointmentsControll.getAppointmentIdGenerator()));
+        int id = AppointmentsControll.getAppointmentIdGenerator();
+        if(id == 0){
+            id = 1;
+        }
+        generated_id.setText(String.valueOf(id));
         userID.setText(String.valueOf(DatabaseRequests.getUserID())); // set up userID
 
         /**
@@ -117,7 +121,10 @@ public class AddingAppointment implements Initializable {
             if (newValidation.getValidationValue()) {
 
                 /**Converting input to right type*/
-                int id = AppointmentsControll.getAppointmentIdGenerator();
+                int appId = AppointmentsControll.getAppointmentIdGenerator();
+                if(appId == 0){
+                    appId = 1;
+                }
 
                 /**Translate Name to Id*/
                 ResultSet allContactsData = DatabaseRequests.getAllContacts();
@@ -136,7 +143,7 @@ public class AddingAppointment implements Initializable {
                 /**Get today's date for created date column*/
                 LocalDateTime today = LocalDateTime.now();
                 /**Create a new Apointment and add to List*/
-                Appointments newApp = new Appointments(id, title.getText(), description.getText(), location.getText(), type.getText(),convertedStartDate, convertedEndDate, today, DatabaseRequests.getUsername(), today, DatabaseRequests.getUsername(), Integer.valueOf(customerID.getText()), DatabaseRequests.getUserID(),convertedContact );
+                Appointments newApp = new Appointments(appId, title.getText(), description.getText(), location.getText(), type.getText(),convertedStartDate, convertedEndDate, today, DatabaseRequests.getUsername(), today, DatabaseRequests.getUsername(), Integer.valueOf(customerID.getText()), DatabaseRequests.getUserID(),convertedContact );
                 DataPool.addAppointmentToTheList(newApp);
 
                 /**Transfer control to Dashboard*/

@@ -140,7 +140,7 @@ public class AppointmentsControll implements Initializable {
                     StartDate_Time.setCellValueFactory(data-> data.getValue().getStartDateObject());
                     EndDate_Time.setCellValueFactory(data-> data.getValue().getEndDateObject());
 
-                    Cust_ID.setCellValueFactory(data -> data.getValue().getSimpleContact_ID().asObject());
+                    Cust_ID.setCellValueFactory(data -> data.getValue().getSimpleCus_ID().asObject());
                     User_ID.setCellValueFactory(data -> data.getValue().getSimpleUser_ID().asObject());
 
             }
@@ -195,6 +195,7 @@ public class AppointmentsControll implements Initializable {
         }
         catch(Exception e){
             errorHolder.setText("Can't delete selected Appointment");
+            System.out.println(e.getMessage());
         }
     }
 

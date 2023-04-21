@@ -192,7 +192,6 @@ import java.time.LocalDateTime;
      */
 
     public static void updateAppointmnet(Appointments appointment) throws Exception{
-        System.out.println(appointment.getStartDate());
         PreparedStatement createApptms = Database.connection.prepareStatement(
                 "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, Contact_ID = ? WHERE Appointment_Id = ?;");
 
@@ -218,7 +217,7 @@ import java.time.LocalDateTime;
      */
 
     public static void deleteAppointment(Appointments selectedApp) throws Exception {
-        PreparedStatement delApp = Database.connection.prepareStatement("DELETE FROM appointments WHERE Appointment_ID = ? ");
+        PreparedStatement delApp = Database.connection.prepareStatement("DELETE FROM appointments WHERE Appointment_ID = ?;");
         delApp.setInt(1, selectedApp.getAppointmentId());
         delApp.executeUpdate();
     }
@@ -230,29 +229,35 @@ import java.time.LocalDateTime;
      */
     public static void addNewCustomerToDb(Customers newCustomer) throws  Exception{
 
-        int Customer_ID =  newCustomer.getCustomer_ID();
-        String name = newCustomer.getCustomer_Name();
-        String address = newCustomer.getAddress();
-        String phone = newCustomer.getPhone();
-        String postal = newCustomer.getPostal_code();
-        LocalDateTime create_update_Date = newCustomer.getCreated_Date();
-        String created_updated_By = getUsername();
-        int divisionId = newCustomer.getDivision_ID();
+        try{
+            int Customer_ID = newCustomer.getCustomer_ID();
+            String name = newCustomer.getCustomer_Name();
+            String address = newCustomer.getAddress();
+            String phone = newCustomer.getPhone();
+            String postal = newCustomer.getPostal_code();
+            LocalDateTime create_update_Date = newCustomer.getCreated_Date();
+            String created_updated_By = getUsername();
+            int divisionId = newCustomer.getDivision_ID();
 
-        PreparedStatement getCustomers = Database.connection.prepareStatement("INSERT INTO customers(Customer_ID, Customer_Name, Address, Postal_Code, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID, Phone) VALUES (?,?,?,?,?,?,?,?,?,?);");
-        //Fill variables with data
-        getCustomers.setInt(1, Customer_ID);
-        getCustomers.setString(2, name);
-        getCustomers.setString(3, address);
-        getCustomers.setString(4, postal);
-        getCustomers.setTimestamp(5, Timestamp.valueOf(create_update_Date));
-        getCustomers.setString(6, created_updated_By);
-        getCustomers.setTimestamp(7, Timestamp.valueOf(create_update_Date));
-        getCustomers.setString(8, created_updated_By);
-        getCustomers.setInt(9, divisionId);
-        getCustomers.setString(10, phone);
+            PreparedStatement getCustomers = Database.connection.prepareStatement("INSERT INTO customers(Customer_ID, Customer_Name, Address, Postal_Code, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID, Phone) VALUES (?,?,?,?,?,?,?,?,?,?);");
+            //Fill variables with data
+            getCustomers.setInt(1, Customer_ID);
+            getCustomers.setString(2, name);
+            getCustomers.setString(3, address);
+            getCustomers.setString(4, postal);
+            getCustomers.setTimestamp(5, Timestamp.valueOf(create_update_Date));
+            getCustomers.setString(6, created_updated_By);
+            getCustomers.setTimestamp(7, Timestamp.valueOf(create_update_Date));
+            getCustomers.setString(8, created_updated_By);
+            getCustomers.setInt(9, divisionId);
+            getCustomers.setString(10, phone);
 
-        getCustomers.executeUpdate();
+            getCustomers.executeUpdate();
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
 
     }
 
@@ -307,7 +312,8 @@ import java.time.LocalDateTime;
      * Delete Customer
      */
     public static void deleteCustomer(Customers selectedCustomer) throws Exception {
-        PreparedStatement delApp = Database.connection.prepareStatement("DELETE FROM customers WHERE Customer_ID = ? ");
+        PreparedStatement delApp = Database.connection.prepareStatement("DELETE FROM customers WHERE Customer_ID = ?;");
+        System.out.println("Will be deleted" + selectedCustomer.getCustomer_ID());
         delApp.setInt(1, selectedCustomer.getCustomer_ID());
         delApp.executeUpdate();
     }
