@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import main.Main;
+import main.utils.Logs;
 import main.utils.TimeHandling;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +21,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.awt.*;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -88,6 +93,8 @@ public class LoginController implements Initializable {
 
     public void loginUser(MouseEvent mouseEvent) {
 
+        Timestamp loginTime = Timestamp.valueOf(LocalDateTime.now());
+
         errorHolder.setText("");
         if(!usernameField.getText().equals("") && !passwordField.getText().equals("")){
             /**
@@ -96,6 +103,12 @@ public class LoginController implements Initializable {
             try{
                 boolean isAuthenticated = DatabaseRequests.authenticate(usernameField.getText(), passwordField.getText());
                 if(!isAuthenticated){
+                    /**
+                     * Get data for log
+                     */
+                    Logs newLog = new Logs(usernameField.getText(), loginTime, false);
+                    newLog.createLog();
+
                     if(TimeHandling.isUserLanguageFrench()){
                         errorHolder.setText("L'utilisateur avec ces informations d'identification est introuvable!");
                     }
@@ -104,19 +117,22 @@ public class LoginController implements Initializable {
                     }
                 }
                 else{
+
+                    /**
+                     * Get data for log
+                     */
+                    Logs newLog = new Logs(usernameField.getText(), loginTime, true);
+                    newLog.createLog();
+
                     /**
                      * Transfer user to other view
                      */
-
                     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/appointments.fxml"));
                     Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
                     stage.setTitle("Dashboard");
                     Parent root = (Parent) fxmlLoader.load();
                     stage.setScene(new Scene(root));
                     stage.show();
-/*
-
- */
 
                 }
             }

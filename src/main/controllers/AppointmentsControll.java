@@ -111,7 +111,6 @@ public class AppointmentsControll implements Initializable {
 
         try{
 
-
             /** Get data from Appointment table in DB*/
             ResultSet results = DatabaseRequests.getAppointements();
 
@@ -178,12 +177,27 @@ public class AppointmentsControll implements Initializable {
 
             int appByMonthCount = 0;
             int todayMonth= LocalDateTime.now().getMonthValue();
+            LocalDateTime today = LocalDateTime.now();
 
             for(int i=0; i< DataPool.getAllAppointments().size(); i++){
                 if(todayMonth == DataPool.getAllAppointments().get(i).getStartDate().getMonthValue()){
                     appByMonthCount =  appByMonthCount + 1;
                 }
+                /**
+                 * Display upcoming appointments
+                 */
+                 if(DataPool.getAllAppointments().get(i).getStartDate().compareTo(today.plusMinutes(15)) <= 15){
+                    String start = DataPool.getAllAppointments().get(i).getStartDate().getMonthValue() + "/"+DataPool.getAllAppointments().get(i).getStartDate().getDayOfMonth() +"/"+DataPool.getAllAppointments().get(i).getStartDate().getYear();
+                    String time = DataPool.getAllAppointments().get(i).getStartDate().getHour() + ":" + DataPool.getAllAppointments().get(i).getStartDate().getMinute();
+
+                    notificationHolder.setText("You have an upcoming appointment: \n" + "Appointment ID: " + DataPool.getAllAppointments().get(i).getAppointmentId() + "\n " +" Date: " + start + "\n " +" Time: " + time);
+                }
+                 else{
+                     notificationHolder.setText("You have no upcoming appointment");
+                 }
             }
+
+
             TotalNumberAppoHolder.setText("Number of appointments this month: " + String.valueOf(appByMonthCount));
         }
         catch(Exception e){
