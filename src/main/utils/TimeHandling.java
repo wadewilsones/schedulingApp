@@ -34,7 +34,6 @@ public class TimeHandling {
 
         ZonedDateTime localTime = ZonedDateTime.of(LocalDate.now(),time.toLocalTime(), getTimeZoneName()); // current zone
         ZonedDateTime convertedTime = localTime.withZoneSameInstant(ZoneId.of("America/New_York")); //ET time
-        System.out.println("Time zone: " + convertedTime.getHour() + " " );
         return convertedTime;
     }
 
@@ -45,11 +44,7 @@ public class TimeHandling {
 
         boolean isFrench = false;
         if(Locale.getDefault().getLanguage().equals("fr")){
-            System.out.println("French language");
             isFrench = true;
-        }
-        else{
-            System.out.println("English language");
         }
         return isFrench;
     }
@@ -65,7 +60,6 @@ public class TimeHandling {
             try{
                 LocalTime newTime = LocalTime.parse(selectedTime);
                 convertedDate = LocalDateTime.of(selectedDate, newTime);
-                System.out.println(convertedDate);
                 return convertedDate;
             }
             catch(Exception e){

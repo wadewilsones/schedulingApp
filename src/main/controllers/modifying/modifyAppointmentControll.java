@@ -117,7 +117,7 @@ public class modifyAppointmentControll implements Initializable {
         ErrorHolder.setText("");
         try {
             //Validate input
-            Validation newValidation = new Validation(title.getText(), description.getText(), location.getText(), type.getText(), startDate.getValue(), startTime.getText(), endDate.getValue(), endTime.getText(), customerID.getText());
+            Validation newValidation = new Validation(Integer.valueOf(generated_id.getText()),title.getText(), description.getText(), location.getText(), type.getText(), startDate.getValue(), startTime.getText(), endDate.getValue(), endTime.getText(), customerID.getText(), contact.getSelectionModel().getSelectedItem().toString());
 
             if (newValidation.getValidationValue()) {
 
@@ -149,8 +149,6 @@ public class modifyAppointmentControll implements Initializable {
                 selectedApp.set_last_Update_By(DatabaseRequests.getUsername());
                 selectedApp.setCustomer_ID(Integer.valueOf(customerID.getText()));
                 selectedApp.setContact_ID(convertedContact);
-
-                //Appointments newApp = new Appointments(selectedApp.getAppointmentId(), title.getText(), description.getText(), location.getText(), type.getText(),convertedStartDate, convertedEndDate, selectedApp.get_created_Date(), selectedApp.get_created_By(), today, DatabaseRequests.getUsername(), Integer.valueOf(customerID.getText()), DatabaseRequests.getUserID(),convertedContact );
 
                 DataPool.updateAppointment(DataPool.getAllAppointments().indexOf(selectedApp), selectedApp);
 

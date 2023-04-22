@@ -1,9 +1,12 @@
 package main.utils;
 
 import dbhelper.DatabaseRequests;
+import main.models.DataPool;
 
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
@@ -48,7 +51,7 @@ public class Validation {
      * Constructor for Appointment
      */
 
-     public Validation(String title, String descr, String loc, String type, LocalDate start, String startTime, LocalDate end, String endTime, String cusId) {
+     public Validation(int appId, String title, String descr, String loc, String type, LocalDate start, String startTime, LocalDate end, String endTime, String cusId, String contactId) {
          /**
           * Null check
           */
@@ -62,6 +65,7 @@ public class Validation {
                  LocalDateTime localEndTime = TimeHandling.convertDateToLocalDateTime(end, endTime);
                  ZonedDateTime estStart = TimeHandling.convertToEst(localStartTime);
                  ZonedDateTime estEnd = TimeHandling.convertToEst(localEndTime);
+
                  /**Check if customerID is correct*/
                  if (!DatabaseRequests.getCustomerIdList(Integer.parseInt(cusId))) {
                      setErrorMessageValue("Wrong Customer_ID value!");
@@ -73,8 +77,57 @@ public class Validation {
                      setErrorMessageValue("Time is outside business hours!");
                  }
                  else{
-                     setValidationValue(true);
+                     /**
+                      * Overlapping appointments validation
+                      * Get contact ID
+                      */
+                     ResultSet contacts = DatabaseRequests.getAllContacts(); // retrieve all contacts
+                     String contactName = null;
+                     int idOfSelectedContact = 0;
+                     while(contacts.next()){
+                         contactName = contacts.getString("Contact_Name");
+                         if(contactName.equals(contactId)){
+                             idOfSelectedContact = contacts.getInt("Contact_ID");
+                         }
+                     }
+                     /**
+                      * Compare time
+                      */
+                     for(int i = 0; i < DataPool.getAllAppointments().size(); i++){
+                         // find customerID
+                         if(idOfSelectedContact == DataPool.getAllAppointments().get(i).getContact_ID()){
+
+                             /**
+                              * If input start time is between start/end of other appointment time
+                              */
+                             LocalTime inputStartTime = localStartTime.toLocalTime();
+                             LocalTime inputEndTime = localEndTime.toLocalTime();
+
+                             LocalTime appStartTime = DataPool.getAllAppointments().get(i).getStartDate().toLocalTime();
+                             LocalTime appEndTime = DataPool.getAllAppointments().get(i).getEndDate().toLocalTime();
+
+                             int getApID = DataPool.getAllAppointments().get(i).getAppointmentId();
+                             /**
+                              * If time is overlapped
+                              */
+                             if(getApID != appId){
+                                 if(inputEndTime.isAfter(appStartTime) && inputStartTime.isBefore(appEndTime)){
+                                     System.out.println(getApID + " compare with" + appId);
+                                     setValidationValue(false);
+                                     setErrorMessageValue("This time is not available! Change time.");
+                                 }
+                                 /**
+                                  * Valid
+                                  */
+                                 else{
+                                     setValidationValue(true);
+                                 }
+                             }
+
+                         }
+                     }
                  }
+
              } catch (Exception e) {
                  setValidationValue(false);
                  setErrorMessageValue("Wrong value type was entered! Check all your field");

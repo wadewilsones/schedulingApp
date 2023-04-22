@@ -38,13 +38,11 @@ import java.sql.Timestamp;
             File logFile = new File("login_activity.txt");
 
             if(logFile.createNewFile()){
-                System.out.println("NEW FILE EXISTS");
                 FileWriter writer = new FileWriter("login_activity.txt");
                 writer.write("Logs\n" + "\nAttempt Number: " + attemptNumber + "\n"  + "Username: " + username + "\n" + "Login Time: " + loggingAttemptTime + "\n" + "Is login Successful: " + isLoginSuccessful);
                 writer.close();
             }
             else{
-                System.out.println("NEW FILE DOESN'T EXISTS");
                 BufferedWriter writer = new BufferedWriter (new FileWriter("login_activity.txt", true));
                 writer.write(  "\n" + "\nAttempt Number: " + attemptNumber  + "\n"  + "Username: " + username + "\n" + "Login Time: " + loggingAttemptTime + "\n" + "Is login Successful: " + isLoginSuccessful);
                 writer.close();

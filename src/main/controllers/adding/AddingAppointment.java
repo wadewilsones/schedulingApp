@@ -115,17 +115,18 @@ public class AddingAppointment implements Initializable {
     public void addNewAppointmentToList(MouseEvent mouseEvent) {
         ErrorHolder.setText("");
         try {
+            /**Converting input to right type*/
+            int appId = AppointmentsControll.getAppointmentIdGenerator();
+            if(appId == 0){
+                appId = 1;
+            }
+
             //Validate input
-            Validation newValidation = new Validation(title.getText(), description.getText(), location.getText(), type.getText(), startDate.getValue(), startTime.getText(), endDate.getValue(), endTime.getText(), customerID.getText());
+            Validation newValidation = new Validation(appId,title.getText(), description.getText(), location.getText(), type.getText(), startDate.getValue(), startTime.getText(), endDate.getValue(), endTime.getText(), customerID.getText(), contact.getSelectionModel().getSelectedItem().toString());
 
 
             if (newValidation.getValidationValue()) {
 
-                /**Converting input to right type*/
-                int appId = AppointmentsControll.getAppointmentIdGenerator();
-                if(appId == 0){
-                    appId = 1;
-                }
 
                 /**Translate Name to Id*/
                 ResultSet allContactsData = DatabaseRequests.getAllContacts();

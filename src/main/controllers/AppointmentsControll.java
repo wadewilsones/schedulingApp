@@ -28,6 +28,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.Date;
@@ -183,23 +184,25 @@ public class AppointmentsControll implements Initializable {
                 if(todayMonth == DataPool.getAllAppointments().get(i).getStartDate().getMonthValue()){
                     appByMonthCount =  appByMonthCount + 1;
                 }
+                TotalNumberAppoHolder.setText("Number of appointments this month: " + String.valueOf(appByMonthCount));
                 /**
                  * Display upcoming appointments
                  */
-                 if(DataPool.getAllAppointments().get(i).getStartDate().compareTo(today.plusMinutes(15)) <= 15){
-                    String start = DataPool.getAllAppointments().get(i).getStartDate().getMonthValue() + "/"+DataPool.getAllAppointments().get(i).getStartDate().getDayOfMonth() +"/"+DataPool.getAllAppointments().get(i).getStartDate().getYear();
-                    String time = DataPool.getAllAppointments().get(i).getStartDate().getHour() + ":" + DataPool.getAllAppointments().get(i).getStartDate().getMinute();
+                LocalTime now = LocalTime.now(); //current time
+                LocalTime deadline = now.plusMinutes(15);
+                LocalTime  appointemnt = DataPool.getAllAppointments().get(i).getStartDate().toLocalTime();
 
-                    notificationHolder.setText("You have an upcoming appointment: \n" + "Appointment ID: " + DataPool.getAllAppointments().get(i).getAppointmentId() + "\n " +" Date: " + start + "\n " +" Time: " + time);
-                }
-                 else{
-                     notificationHolder.setText("You have no upcoming appointment");
+                 if(appointemnt.isAfter(now) && appointemnt.isBefore(deadline)){
+                     String start = DataPool.getAllAppointments().get(i).getStartDate().getMonthValue() + "/"+DataPool.getAllAppointments().get(i).getStartDate().getDayOfMonth() +"/"+DataPool.getAllAppointments().get(i).getStartDate().getYear();
+                     String time = DataPool.getAllAppointments().get(i).getStartDate().getHour() + ":" + DataPool.getAllAppointments().get(i).getStartDate().getMinute();
+
+                     notificationHolder.setText("You have an upcoming appointment:\n" + "Appointment ID: " + DataPool.getAllAppointments().get(i).getAppointmentId() + "\n" +" Date: " + start + "\n" +" Time: " + time);
                  }
-            }
+                else{
+                    notificationHolder.setText("You have no upcoming appointment");
+                }
 
-
-            TotalNumberAppoHolder.setText("Number of appointments this month: " + String.valueOf(appByMonthCount));
-        }
+        } }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
