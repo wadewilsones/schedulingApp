@@ -81,13 +81,28 @@
 }
 
 .TableHeadingWrapper{
--fx-padding:0 0 4em 0;
+-fx-padding:0 0 1em 0;
 }
 
 .DashboardTableheaders{
 -fx-font-weight:600;
 -fx-font-size:1.8em;
 -fx-text-alignment: center;
+}
+
+.AppRadioButonHolder{
+
+-fx-padding: 1em;
+
+}
+
+.AppRadioButonHolder Text{
+-fx-font-weight:600;
+-fx-font-size:1.3em;
+}
+
+.AppRadioButonHolder RadioButton{
+-fx-font-size:1em;
 }
 
 .AptBtnContainer{

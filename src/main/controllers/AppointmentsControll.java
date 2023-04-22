@@ -2,6 +2,8 @@ package main.controllers;
 
 import dbhelper.DatabaseRequests;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,8 +24,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -63,8 +67,12 @@ public class AppointmentsControll implements Initializable {
     public Text notificationHolder;
 
     static public Appointments selectedApp;
-
-
+    @FXML
+    static ToggleGroup filerToggleGroup;
+    @FXML
+    static RadioButton month;
+    @FXML
+    static RadioButton week;
     /**
      * Hold current ID value
      */
@@ -214,6 +222,111 @@ public class AppointmentsControll implements Initializable {
         Parent root = (Parent) fxmlLoader.load();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    /**
+     *
+     * Handle Appointment filter view
+     */
+    /**Month*/
+    public void FilterAppointmentsByMonth(MouseEvent mouseEvent) {
+
+        ObservableList<Appointments> filteredByMonth = FXCollections.observableArrayList();
+
+        for(int i = 0; i< DataPool.getAllAppointments().size(); i++){
+
+            LocalDateTime appDate = DataPool.getAllAppointments().get(i).getStartDate();
+            LocalDateTime today = LocalDateTime.now();
+            //Get date from appointment and compare it with current month
+            if( appDate.getMonthValue()== today.getMonthValue() && appDate.getYear() == today.getYear()){
+                filteredByMonth.add(DataPool.getAllAppointments().get(i)); //add this to new list
+                /**
+                 * Set current view to filtered Table
+                 */
+                AppointmentView.setItems(filteredByMonth);
+
+                AppId.setCellValueFactory(data -> data.getValue().getSimpleApptId().asObject());
+                Title.setCellValueFactory(data -> data.getValue().getSimpleTitle());
+                Description.setCellValueFactory(data -> data.getValue().getSimpleDescription());
+
+                Location.setCellValueFactory(data -> data.getValue().getSimpleLocation());
+                Type.setCellValueFactory(data -> data.getValue().getSimpleType());
+
+                Contact.setCellValueFactory(data -> data.getValue().getSimpleContact_ID().asObject());
+                StartDate_Time.setCellValueFactory(data-> data.getValue().getStartDateObject());
+                EndDate_Time.setCellValueFactory(data-> data.getValue().getEndDateObject());
+
+                Cust_ID.setCellValueFactory(data -> data.getValue().getSimpleCus_ID().asObject());
+                User_ID.setCellValueFactory(data -> data.getValue().getSimpleUser_ID().asObject());
+            }
+
+        }
+        if(filteredByMonth.size() == 0){
+            notificationHolder.setText("No appointments this month");
+        }
+
+    }
+    /**Week*/
+    public void FilterAppointmentsByWeek(MouseEvent mouseEvent) {
+
+        ChronoLocalDateTime today = ChronoLocalDateTime.from(LocalDateTime .now());
+        ChronoLocalDateTime currentWeek = ChronoLocalDateTime.from(LocalDateTime.now().plusDays(7));
+
+        ObservableList<Appointments> filteredByWeek = FXCollections.observableArrayList();
+        for (int i = 0; i < DataPool.getAllAppointments().size(); i++) {
+
+            LocalDateTime appDate = DataPool.getAllAppointments().get(i).getStartDate();
+            //Get date from appointment and compare it with current day
+            if (appDate.isAfter(ChronoLocalDateTime.from(today)) && appDate.isBefore(ChronoLocalDateTime.from(currentWeek))) {
+
+                System.out.println("Thus days are in week:" + DataPool.getAllAppointments().get(i).getStartDate());
+                filteredByWeek.add(DataPool.getAllAppointments().get(i)); //add this to new list
+
+                AppointmentView.setItems(filteredByWeek);
+
+                AppId.setCellValueFactory(data -> data.getValue().getSimpleApptId().asObject());
+                Title.setCellValueFactory(data -> data.getValue().getSimpleTitle());
+                Description.setCellValueFactory(data -> data.getValue().getSimpleDescription());
+
+                Location.setCellValueFactory(data -> data.getValue().getSimpleLocation());
+                Type.setCellValueFactory(data -> data.getValue().getSimpleType());
+
+                Contact.setCellValueFactory(data -> data.getValue().getSimpleContact_ID().asObject());
+                StartDate_Time.setCellValueFactory(data -> data.getValue().getStartDateObject());
+                EndDate_Time.setCellValueFactory(data -> data.getValue().getEndDateObject());
+
+                Cust_ID.setCellValueFactory(data -> data.getValue().getSimpleCus_ID().asObject());
+                User_ID.setCellValueFactory(data -> data.getValue().getSimpleUser_ID().asObject());
+            }
+
+
+        }
+        if(filteredByWeek.size() == 0){
+            notificationHolder.setText("No appointments this week");
+        }
+    }
+
+
+    /**
+     * Remove filter
+     */
+    public void RemoveFilterAll(MouseEvent mouseEvent) {
+        AppointmentView.setItems(DataPool.getAllAppointments());
+
+        AppId.setCellValueFactory(data -> data.getValue().getSimpleApptId().asObject());
+        Title.setCellValueFactory(data -> data.getValue().getSimpleTitle());
+        Description.setCellValueFactory(data -> data.getValue().getSimpleDescription());
+
+        Location.setCellValueFactory(data -> data.getValue().getSimpleLocation());
+        Type.setCellValueFactory(data -> data.getValue().getSimpleType());
+
+        Contact.setCellValueFactory(data -> data.getValue().getSimpleContact_ID().asObject());
+        StartDate_Time.setCellValueFactory(data-> data.getValue().getStartDateObject());
+        EndDate_Time.setCellValueFactory(data-> data.getValue().getEndDateObject());
+
+        Cust_ID.setCellValueFactory(data -> data.getValue().getSimpleCus_ID().asObject());
+        User_ID.setCellValueFactory(data -> data.getValue().getSimpleUser_ID().asObject());
+
     }
 }
 

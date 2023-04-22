@@ -9,7 +9,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="main.controllers.AppointmentsControll"
-            prefHeight="780.0" prefWidth="1200.0" stylesheets="@./style.css">
+            prefHeight="700" prefWidth="1200.0" stylesheets="@./style.css" styleClass="AppointmentHolder">
 
         <top>
             <GridPane styleClass="GridPaneDashboard" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="2">
@@ -29,6 +29,29 @@
             </VBox>
 
             <FlowPane  styleClass="TableViewHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" alignment="CENTER">
+                <VBox spacing="10" alignment="CENTER" styleClass="AppRadioButonHolder">
+                    <Text>Filter By:</Text>
+                    <HBox spacing="10">
+                        <RadioButton onMouseClicked="#FilterAppointmentsByMonth" text="month" fx:id="month">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="filerToggleGroup"/>
+                            </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id= "week" onMouseClicked="#FilterAppointmentsByWeek" text="week">
+                            <toggleGroup>
+                                <fx:reference source="filerToggleGroup"/>
+                            </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="none" onMouseClicked="#RemoveFilterAll" text="Show all">
+                            <toggleGroup>
+                                <fx:reference source="filerToggleGroup"/>
+                            </toggleGroup>
+                        </RadioButton>
+
+                    </HBox>
+                </VBox>
+
+
             <TableView fx:id="AppointmentView">
                 <columns>
                     <TableColumn text="Appointment_ID " fx:id="AppId" prefWidth="170"></TableColumn>
