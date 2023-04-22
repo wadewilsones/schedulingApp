@@ -75,7 +75,11 @@
 -fx-background-color:#4AB1EB;
 -fx-text-fill: white;
 }
-
+.TrackDataHolder Text{
+-fx-font-weight:bold;
+-fx-font-size:1.2em;
+-fx-fill: #19A7CE;
+}
 .Dashboard_BorderPain_tables{
 -fx-border-color: red;
 }

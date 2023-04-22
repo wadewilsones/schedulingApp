@@ -156,13 +156,19 @@ public class CustomersController implements Initializable {
      */
 
     public void HandleUpdateCustomerClick(MouseEvent mouseEvent) throws Exception{
-        selectedCustomer = CustomerView.getSelectionModel().getSelectedItem();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/updateCustomers.fxml"));
-        Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-        stage.setTitle("Update Customer Information");
-        Parent root = (Parent) fxmlLoader.load();
-        stage.setScene(new Scene(root));
-        stage.show();
+        try{
+            selectedCustomer = CustomerView.getSelectionModel().getSelectedItem();
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/updateCustomers.fxml"));
+            Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+            stage.setTitle("Update Customer Information");
+            Parent root = (Parent) fxmlLoader.load();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch(Exception e){
+            errorHolder.setText("Can't Update Customer");
+        }
+
     }
 
     /**
@@ -175,9 +181,9 @@ public class CustomersController implements Initializable {
                 DataPool.deleteCustomer(selectedCustomer);
                 notificationHolder.setText("Customer " + selectedCustomer.getCustomer_Name() +" was deleted.");
             }
-                  catch (Exception e){
-                      errorHolder.setText("Can't Delete Customer!");
-                  }
+            catch (Exception e){
+                errorHolder.setText("Can't Delete Customer!");
+            }
 
 
     }

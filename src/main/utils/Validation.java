@@ -3,6 +3,8 @@ package main.utils;
 import dbhelper.DatabaseRequests;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -45,47 +47,40 @@ public class Validation {
      * Constructor for Appointment
      */
 
-     public Validation(String title, String descr, String loc, String type, LocalDate start, String startTime, LocalDate end, String endTime, String cusId){
+     public Validation(String title, String descr, String loc, String type, LocalDate start, String startTime, LocalDate end, String endTime, String cusId) {
+         /**
+          * Null check
+          */
+         if (title.equals("") || descr.equals("") || loc.equals("") || type.equals("") || startTime.equals("") || cusId.equals("") || endTime.equals("") || start == null || end == null) {
+             setValidationValue(false);
+             setErrorMessageValue("Fill out all fields!");
+         } else {
+             /**Convert date and time format*/
+             try {
+                 LocalDateTime localStartTime = TimeHandling.convertDateToLocalDateTime(start, startTime);
+                 LocalDateTime localEndTime = TimeHandling.convertDateToLocalDateTime(end, endTime);
+                 ZonedDateTime estStart = TimeHandling.convertToEst(localStartTime);
+                 ZonedDateTime estEnd = TimeHandling.convertToEst(localEndTime);
+                 /**Check if customerID is correct*/
+                 if (!DatabaseRequests.getCustomerIdList(Integer.parseInt(cusId))) {
+                     setErrorMessageValue("Wrong Customer_ID value!");
+                     setValidationValue(false);
+                 }
+                 /**Business hours check*/
+                 else if (estStart.isBefore(TimeHandling.workHoursStartEST) || estStart.isAfter(TimeHandling.workHoursEndEST) || estEnd.isBefore(TimeHandling.workHoursStartEST) || estEnd.isAfter(TimeHandling.workHoursEndEST)) {
+                     setValidationValue(false);
+                     setErrorMessageValue("Time is outside business hours!");
+                 }
+                 else{
+                     setValidationValue(true);
+                 }
+             } catch (Exception e) {
+                 setValidationValue(false);
+                 setErrorMessageValue("Wrong value type was entered! Check all your field");
+             }
 
-        try{
-            /*Null check*/
-            if(title.equals("") || descr.equals("") || loc.equals("") || type.equals("") || startTime.equals("") || cusId.equals("") || endTime.equals("") || start == null || end == null){
-                setValidationValue(false);
-                setErrorMessageValue("Fill out all fields!");
-            }
-            else{
-                /**Convert date and time format*/
-                try{
-                    TimeHandling.convertDateToLocalDateTime(start, startTime);
-                    TimeHandling.convertDateToLocalDateTime(end, endTime);
-                    /**Check if customerID is correct*/
-                    if(DatabaseRequests.getCustomerIdList(Integer.parseInt(cusId))){
-                        setValidationValue(true); // validation passed
-                    }
-                    else{
-                        setErrorMessageValue("Wrong Customer_ID value!");
-                        setValidationValue(false);
-                    }
-
-                }
-                catch (Exception e){
-                    setValidationValue(false);
-                    setErrorMessageValue(e.getMessage());
-                }
-
-                /*Business hours check*/
-                /*Overlapping hours check*/
-            }
-
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-            setValidationValue(false);
-            setErrorMessageValue("Wrong value type was entered! Check all your field");
-        }
-
-    }
-
+         }
+     }
     /**
      * Constructor for Customers
      */

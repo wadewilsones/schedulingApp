@@ -118,6 +118,7 @@ public class AddingAppointment implements Initializable {
             //Validate input
             Validation newValidation = new Validation(title.getText(), description.getText(), location.getText(), type.getText(), startDate.getValue(), startTime.getText(), endDate.getValue(), endTime.getText(), customerID.getText());
 
+
             if (newValidation.getValidationValue()) {
 
                 /**Converting input to right type*/

@@ -18,7 +18,9 @@ import javafx.stage.Stage;
 import main.Main;
 import main.models.Appointments;
 import main.models.DataPool;
+import main.utils.TimeHandling;
 import main.utils.Validation;
+import org.xml.sax.ErrorHandler;
 
 import java.io.IOException;
 import java.net.URL;
@@ -60,11 +62,27 @@ public class AppointmentsControll implements Initializable {
     @FXML
     private TableColumn   <Appointments,Integer> User_ID;
 
+    /**
+     * UI Information
+     */
     @FXML
     public Text errorHolder;
 
     @FXML
     public Text notificationHolder;
+
+    /**
+     * To display appointments counts
+     */
+    @FXML
+    public Text TotalNumberAppoHolder;
+
+    @FXML
+    public Text TotalNumberAppoHolderByType;
+
+    /**
+     * Radio Buttons
+     */
 
     static public Appointments selectedApp;
     @FXML
@@ -92,12 +110,13 @@ public class AppointmentsControll implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
 
         try{
+
+
             /** Get data from Appointment table in DB*/
             ResultSet results = DatabaseRequests.getAppointements();
 
             /**Create new appointment object that will be added to DataPool*/
             while(results.next()){
-
 
                 /**Create variables to hold record's columns values from DB*/
 
@@ -152,10 +171,28 @@ public class AppointmentsControll implements Initializable {
                     User_ID.setCellValueFactory(data -> data.getValue().getSimpleUser_ID().asObject());
 
             }
+
+            /**
+             * Display calculation of appointemnts
+             */
+
+            int appByMonthCount = 0;
+            int todayMonth= LocalDateTime.now().getMonthValue();
+
+            for(int i=0; i< DataPool.getAllAppointments().size(); i++){
+                if(todayMonth == DataPool.getAllAppointments().get(i).getStartDate().getMonthValue()){
+                    appByMonthCount =  appByMonthCount + 1;
+                }
+            }
+            TotalNumberAppoHolder.setText("Number of appointments this month: " + String.valueOf(appByMonthCount));
         }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
+
+
+
+
 
     }
 
@@ -202,7 +239,7 @@ public class AppointmentsControll implements Initializable {
             notificationHolder.setText( "Appointment with ID " + selectedApp.getAppointmentId()+ " and title: " + selectedApp.getTitle() + " was canceled");
         }
         catch(Exception e){
-            errorHolder.setText("Can't delete selected Appointment");
+            errorHolder.setText("Can't delete Appointment");
             System.out.println(e.getMessage());
         }
     }
@@ -212,16 +249,23 @@ public class AppointmentsControll implements Initializable {
      */
 
     public void updateAppointmnet(MouseEvent mouseEvent) throws Exception{
-        // selected app
-        selectedApp = AppointmentView.getSelectionModel().getSelectedItem();
 
-        //Display  modify form
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/modifyAppointment.fxml"));
-        Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-        stage.setTitle("Add New Appointment");
-        Parent root = (Parent) fxmlLoader.load();
-        stage.setScene(new Scene(root));
-        stage.show();
+        try{
+            // selected app
+            selectedApp = AppointmentView.getSelectionModel().getSelectedItem();
+
+            //Display  modify form
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/modifyAppointment.fxml"));
+            Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+            stage.setTitle("Update Appointment");
+            Parent root = (Parent) fxmlLoader.load();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch(Exception e){
+            errorHolder.setText("Can't Update Appointment");
+        }
+
     }
 
     /**
@@ -312,6 +356,10 @@ public class AppointmentsControll implements Initializable {
      */
     public void RemoveFilterAll(MouseEvent mouseEvent) {
         AppointmentView.setItems(DataPool.getAllAppointments());
+
+        /**
+         * Using lambda expression
+         */
 
         AppId.setCellValueFactory(data -> data.getValue().getSimpleApptId().asObject());
         Title.setCellValueFactory(data -> data.getValue().getSimpleTitle());

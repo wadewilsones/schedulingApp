@@ -11,6 +11,12 @@ import java.util.Locale;
 public class TimeHandling {
 
     /**
+     * Business Hours Data
+     */
+    public static ZoneId estZone = ZoneId.of("America/New_York"); // set zone
+    public static ZonedDateTime workHoursStartEST = ZonedDateTime.of(LocalDate.now(), LocalTime.of(8,0), estZone);
+    public static ZonedDateTime workHoursEndEST = ZonedDateTime.of(LocalDate.now(), LocalTime.of(22,0), estZone);
+    /**
      * Get user timezone
      * @return returns name of current timezone
      */
@@ -21,6 +27,16 @@ public class TimeHandling {
         return userTimeZone;
     }
 
+    /**
+     * Convert time to EST time to compare
+     */
+    public static ZonedDateTime convertToEst(LocalDateTime time){
+
+        ZonedDateTime localTime = ZonedDateTime.of(LocalDate.now(),time.toLocalTime(), getTimeZoneName()); // current zone
+        ZonedDateTime convertedTime = localTime.withZoneSameInstant(ZoneId.of("America/New_York")); //ET time
+        System.out.println("Time zone: " + convertedTime.getHour() + " " );
+        return convertedTime;
+    }
 
     /**
      * Check user system language

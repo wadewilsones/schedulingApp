@@ -169,9 +169,7 @@ public class modifyAppointmentControll implements Initializable {
             System.out.println(e.getMessage());
         }
     }
-
-
-
+    
     /**
      * Handle cancel button Click
      */

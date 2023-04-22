@@ -26,6 +26,11 @@
                 <Text styleClass="DashboardTableheaders">Appointments</Text>
                 <Text GridPane.rowIndex="2" styleClass="errorStyle" fx:id="errorHolder"></Text>
                 <Text GridPane.rowIndex="2" styleClass="notificationStyle" fx:id="notificationHolder"></Text>
+
+                <VBox alignment="TOP_RIGHT" styleClass="TrackDataHolder">
+                    <Text fx:id = "TotalNumberAppoHolder"></Text>
+                    <Text fx:id = "TotalNumberAppoHolderByType"></Text>
+                </VBox>
             </VBox>
 
             <FlowPane  styleClass="TableViewHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" alignment="CENTER">
@@ -49,8 +54,8 @@
                         </RadioButton>
 
                     </HBox>
-                </VBox>
 
+                </VBox>
 
             <TableView fx:id="AppointmentView">
                 <columns>
