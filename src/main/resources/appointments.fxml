@@ -9,40 +9,37 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="main.controllers.AppointmentsControll"
-            prefHeight="700" prefWidth="1200.0" stylesheets="@./style.css" styleClass="AppointmentHolder">
+            prefHeight="600.0" prefWidth="1000.0" stylesheets="@./style.css" styleClass="AppointmentHolder">
 
         <top>
             <GridPane styleClass="GridPaneDashboard" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="2">
                 <Text GridPane.rowIndex="1" styleClass="DashboardHeading" fx:id="Scheduling_App_Label">Dashboard</Text>
-                <FlowPane styleClass="Dashboard_Switcher_Holder"  GridPane.rowIndex="2" >
+                <HBox styleClass="Dashboard_Switcher_Holder"  GridPane.rowIndex="2" spacing="20">
                     <Button GridPane.rowIndex="2" fx:id="SwitchToCustomerTableBtn" onMouseClicked="#SwitchTableToCustomer">Switch to Customer Table</Button>
-                </FlowPane>
+                    <Button GridPane.rowIndex="2" fx:id="SwitchToReportsBtn" onMouseClicked="#SwitchToReports">Show Reports</Button>
+                </HBox>
             </GridPane>
         </top>
 
         <center>
     <GridPane styleClass="Wrapper_ApptTable_AndHeading" alignment="CENTER">
-            <VBox  GridPane.rowIndex="1" GridPane.columnSpan="3" GridPane.columnIndex="1" styleClass = "TableHeadingWrapper" alignment="CENTER" spacing="20">
+            <VBox  GridPane.rowIndex="1" GridPane.columnSpan="3" GridPane.columnIndex="1" styleClass = "TableHeadingWrapper" alignment="CENTER" spacing="5">
                 <Text styleClass="DashboardTableheaders">Appointments</Text>
                 <Text GridPane.rowIndex="2" styleClass="errorStyle" fx:id="errorHolder"></Text>
                 <Text GridPane.rowIndex="2" styleClass="notificationStyle" fx:id="notificationHolder"></Text>
 
-                <VBox alignment="TOP_RIGHT" styleClass="TrackDataHolder">
-                    <Text fx:id = "TotalNumberAppoHolder"></Text>
-                    <Text fx:id = "TotalNumberAppoHolderByType"></Text>
-                </VBox>
             </VBox>
 
-            <FlowPane  styleClass="TableViewHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" alignment="CENTER">
-                <VBox spacing="10" alignment="CENTER" styleClass="AppRadioButonHolder">
+            <FlowPane  styleClass="TableViewHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" alignment="CENTER_LEFT">
+                <VBox spacing="10" alignment="CENTER_LEFT" styleClass="AppRadioButonHolder">
                     <Text>Filter By:</Text>
                     <HBox spacing="10">
-                        <RadioButton onMouseClicked="#FilterAppointmentsByMonth" text="month" fx:id="month">
+                        <RadioButton onMouseClicked="#FilterAppointmentsByMonth" text="Month" fx:id="month">
                             <toggleGroup>
                                 <ToggleGroup fx:id="filerToggleGroup"/>
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id= "week" onMouseClicked="#FilterAppointmentsByWeek" text="week">
+                        <RadioButton fx:id= "week" onMouseClicked="#FilterAppointmentsByWeek" text="Week">
                             <toggleGroup>
                                 <fx:reference source="filerToggleGroup"/>
                             </toggleGroup>
@@ -57,17 +54,17 @@
 
                 </VBox>
 
-            <TableView fx:id="AppointmentView">
+            <TableView fx:id="AppointmentView" prefHeight="210.0" prefWidth="700.0">
                 <columns>
-                    <TableColumn text="Appointment_ID " fx:id="AppId" prefWidth="170"></TableColumn>
-                    <TableColumn text="Title"  fx:id="Title" prefWidth="100"></TableColumn>
-                    <TableColumn text="Description" fx:id="Description" prefWidth="100"></TableColumn>
-                    <TableColumn text="Location" fx:id="Location" prefWidth="100"></TableColumn>
+                    <TableColumn text="Appointment_ID " fx:id="AppId" ></TableColumn>
+                    <TableColumn text="Title"  fx:id="Title" ></TableColumn>
+                    <TableColumn text="Description" fx:id="Description" ></TableColumn>
+                    <TableColumn text="Location" fx:id="Location" ></TableColumn>
 
-                    <TableColumn text="Contact " fx:id="Contact" prefWidth="100"></TableColumn>
-                    <TableColumn text="Type"  fx:id="Type" prefWidth="80"></TableColumn>
-                    <TableColumn text="Start Date and Time " fx:id="StartDate_Time"  prefWidth="80"></TableColumn>
-                    <TableColumn text="End Date and Time " fx:id="EndDate_Time"  prefWidth="80"></TableColumn>
+                    <TableColumn text="Contact " fx:id="Contact" ></TableColumn>
+                    <TableColumn text="Type"  fx:id="Type" ></TableColumn>
+                    <TableColumn text="Start Date and Time " fx:id="StartDate_Time"  ></TableColumn>
+                    <TableColumn text="End Date and Time " fx:id="EndDate_Time" ></TableColumn>
 
                     <TableColumn text="Customer_ID" fx:id="Cust_ID" prefWidth="110"></TableColumn>
                     <TableColumn text="User_ID" fx:id="User_ID" prefWidth="100"></TableColumn>

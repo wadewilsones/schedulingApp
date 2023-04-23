@@ -169,3 +169,20 @@
 }
 
 
+/**REPORTS*/
+
+.DashboardReportHeader{
+-fx-font-weight:600;
+-fx-font-size:1.4em;
+-fx-text-alignment: center;
+}
+
+.ReportDataContainer{
+-fx-padding: 0em 0em 0 5em;
+
+}
+
+.ReportDataContainer VBox Label{
+-fx-font-size:1.2em;
+-fx-font-weight:600;
+}

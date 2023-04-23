@@ -143,6 +143,7 @@ public class CustomersController implements Initializable {
      * Transfer user to Adding Customer form table view
      */
     public void HandleAddingCustomerBtnClick(MouseEvent mouseEvent) throws Exception{
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/addCustomerForm.fxml"));
         Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
         stage.setTitle("Add New Customer");
@@ -188,5 +189,20 @@ public class CustomersController implements Initializable {
 
     }
 
+    /**
+     * Handle switch view to Reports
+     */
+    public void SwitchToReports(MouseEvent mouseEvent)throws Exception {
+        /**
+         * Transfer user to Report  view
+         */
 
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/reports.fxml"));
+        Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        stage.setTitle("Dashboard - Reports");
+        Parent root = (Parent) fxmlLoader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    }
 }

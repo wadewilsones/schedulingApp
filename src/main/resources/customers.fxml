@@ -10,14 +10,15 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="main.controllers.CustomersController"
-            prefHeight="780.0" prefWidth="1200.0" stylesheets="@./style.css">
+            prefHeight="600.0" prefWidth="1000.0" stylesheets="@./style.css">
 
     <top>
         <GridPane styleClass="GridPaneDashboard" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="2">
             <Text GridPane.rowIndex="1" styleClass="DashboardHeading" fx:id="Scheduling_App_Label">Dashboard</Text>
-            <FlowPane styleClass="Dashboard_Switcher_Holder"  GridPane.rowIndex="2" >
+            <HBox styleClass="Dashboard_Switcher_Holder"  GridPane.rowIndex="2"  spacing="20">
                 <Button GridPane.rowIndex="2" fx:id="SwitchToCustomerTableBtn" onMouseClicked="#SwitchTableToAppointments" >Switch to Appointment Table</Button>
-            </FlowPane>
+                <Button GridPane.rowIndex="2" fx:id="SwitchToReportsBtn" onMouseClicked="#SwitchToReports">Show Reports</Button>
+            </HBox>
         </GridPane>
     </top>
 
@@ -30,7 +31,7 @@
             </VBox>
 
             <FlowPane  styleClass="TableViewHolder" GridPane.rowIndex="2" GridPane.columnSpan="3" alignment="CENTER">
-                <TableView fx:id="CustomerView">
+                <TableView fx:id="CustomerView" prefHeight="210.0" prefWidth="700.0">
                     <columns>
                         <TableColumn text="Customer_ID " fx:id="Customer_ID" prefWidth="170"></TableColumn>
                         <TableColumn text="Customer_Name"  fx:id="Customer_Name" prefWidth="100"></TableColumn>

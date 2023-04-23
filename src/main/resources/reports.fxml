@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="main.controllers.ReportController"
+          prefHeight="600.0" prefWidth="700.0" stylesheets="@./style.css">
+
+                    <GridPane styleClass="GridPaneDashboard" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="2">
+                        <Text GridPane.rowIndex="1" styleClass="DashboardHeading" fx:id="Scheduling_App_Label">Dashboard</Text>
+                        <HBox styleClass="Dashboard_Switcher_Holder"  GridPane.rowIndex="2" spacing="20">
+                            <Button GridPane.rowIndex="2" fx:id="SwitchToCustomerTableBtn" onMouseClicked="#SwitchTableToCustomer">Switch to Customer Table</Button>
+                            <Button GridPane.rowIndex="2" fx:id="switchToAppTable" onMouseClicked="#SwitchTableToAppointments" >Switch to Appointment Table</Button>
+                        </HBox>
+                    </GridPane>
+
+                    <VBox spacing="20" alignment="CENTER_LEFT" styleClass="ReportDataContainer" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.columnSpan="2">
+                        <Text styleClass="DashboardReportHeader">Reports</Text>
+                        <VBox spacing="20" >
+                            <HBox  spacing="20" alignment="CENTER_LEFT">
+                                <Label>Number of Appointments this Month:</Label>
+                                <Text fx:id = "monthsNumber"></Text>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="20">
+                                <Label>Number Appointments By Type:</Label>
+                                <Text fx:id = "typesNumber"></Text>
+                            </HBox>
+                            <VBox>
+
+                            </VBox>
+                        </VBox>
+                        <VBox>
+                            <ListView fx:id="contactsInfo"></ListView>
+                        </VBox>
+                    </VBox>
+
+
+</GridPane>

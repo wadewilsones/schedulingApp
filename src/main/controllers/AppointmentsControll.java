@@ -4,6 +4,7 @@ import dbhelper.DatabaseRequests;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,6 +34,8 @@ import java.time.ZoneId;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class AppointmentsControll implements Initializable {
 
@@ -71,15 +74,6 @@ public class AppointmentsControll implements Initializable {
 
     @FXML
     public Text notificationHolder;
-
-    /**
-     * To display appointments counts
-     */
-    @FXML
-    public Text TotalNumberAppoHolder;
-
-    @FXML
-    public Text TotalNumberAppoHolderByType;
 
     /**
      * Radio Buttons
@@ -154,8 +148,7 @@ public class AppointmentsControll implements Initializable {
                setAppointmentIdGenerator(appId+1);
 
                 /**Bind Tables column with Appointment list*/
-                AppointmentView.setItems(DataPool.getAllAppointments());
-
+                AppointmentView.setItems( DataPool.getAllAppointments());
                     AppId.setCellValueFactory(data -> data.getValue().getSimpleApptId().asObject());
                     Title.setCellValueFactory(data -> data.getValue().getSimpleTitle());
                     Description.setCellValueFactory(data -> data.getValue().getSimpleDescription());
@@ -171,28 +164,17 @@ public class AppointmentsControll implements Initializable {
                     User_ID.setCellValueFactory(data -> data.getValue().getSimpleUser_ID().asObject());
 
             }
-
             /**
-             * Display calculation of appointemnts
+             * Display upcoming appointments
              */
-
-            int appByMonthCount = 0;
-            int todayMonth= LocalDateTime.now().getMonthValue();
-            LocalDateTime today = LocalDateTime.now();
-
             for(int i=0; i< DataPool.getAllAppointments().size(); i++){
-                if(todayMonth == DataPool.getAllAppointments().get(i).getStartDate().getMonthValue()){
-                    appByMonthCount =  appByMonthCount + 1;
-                }
-                TotalNumberAppoHolder.setText("Number of appointments this month: " + String.valueOf(appByMonthCount));
-                /**
-                 * Display upcoming appointments
-                 */
+
                 LocalTime now = LocalTime.now(); //current time
                 LocalTime deadline = now.plusMinutes(15);
                 LocalTime  appointemnt = DataPool.getAllAppointments().get(i).getStartDate().toLocalTime();
 
                  if(appointemnt.isAfter(now) && appointemnt.isBefore(deadline)){
+
                      String start = DataPool.getAllAppointments().get(i).getStartDate().getMonthValue() + "/"+DataPool.getAllAppointments().get(i).getStartDate().getDayOfMonth() +"/"+DataPool.getAllAppointments().get(i).getStartDate().getYear();
                      String time = DataPool.getAllAppointments().get(i).getStartDate().getHour() + ":" + DataPool.getAllAppointments().get(i).getStartDate().getMinute();
 
@@ -201,15 +183,10 @@ public class AppointmentsControll implements Initializable {
                 else{
                     notificationHolder.setText("You have no upcoming appointment");
                 }
-
         } }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-
-
-
-
 
     }
 
@@ -291,6 +268,7 @@ public class AppointmentsControll implements Initializable {
      */
     /**Month*/
     public void FilterAppointmentsByMonth(MouseEvent mouseEvent) {
+        notificationHolder.setText("");
 
         ObservableList<Appointments> filteredByMonth = FXCollections.observableArrayList();
 
@@ -329,18 +307,20 @@ public class AppointmentsControll implements Initializable {
     }
     /**Week*/
     public void FilterAppointmentsByWeek(MouseEvent mouseEvent) {
+        notificationHolder.setText("");
 
-        ChronoLocalDateTime today = ChronoLocalDateTime.from(LocalDateTime .now());
+        ChronoLocalDateTime today = ChronoLocalDateTime.from(LocalDateTime.now());
         ChronoLocalDateTime currentWeek = ChronoLocalDateTime.from(LocalDateTime.now().plusDays(7));
 
         ObservableList<Appointments> filteredByWeek = FXCollections.observableArrayList();
+
         for (int i = 0; i < DataPool.getAllAppointments().size(); i++) {
 
             LocalDateTime appDate = DataPool.getAllAppointments().get(i).getStartDate();
-            //Get date from appointment and compare it with current day
-            if (appDate.isAfter(ChronoLocalDateTime.from(today)) && appDate.isBefore(ChronoLocalDateTime.from(currentWeek))) {
 
-                System.out.println("Thus days are in week:" + DataPool.getAllAppointments().get(i).getStartDate());
+            //Get date from appointment and compare it with current day
+            if ((appDate.isAfter(ChronoLocalDateTime.from(today)) && appDate.isBefore(ChronoLocalDateTime.from(currentWeek))) || (appDate.getMonthValue() == LocalDateTime.now().getMonthValue() && appDate.getDayOfMonth() == LocalDateTime.now().getDayOfMonth() && appDate.getYear()== LocalDateTime.now().getYear())) {
+
                 filteredByWeek.add(DataPool.getAllAppointments().get(i)); //add this to new list
 
                 AppointmentView.setItems(filteredByWeek);
@@ -360,9 +340,9 @@ public class AppointmentsControll implements Initializable {
                 User_ID.setCellValueFactory(data -> data.getValue().getSimpleUser_ID().asObject());
             }
 
-
         }
         if(filteredByWeek.size() == 0){
+            AppointmentView.setItems(null);
             notificationHolder.setText("No appointments this week");
         }
     }
@@ -372,6 +352,7 @@ public class AppointmentsControll implements Initializable {
      * Remove filter
      */
     public void RemoveFilterAll(MouseEvent mouseEvent) {
+        notificationHolder.setText("");
         AppointmentView.setItems(DataPool.getAllAppointments());
 
         /**
@@ -391,6 +372,24 @@ public class AppointmentsControll implements Initializable {
 
         Cust_ID.setCellValueFactory(data -> data.getValue().getSimpleCus_ID().asObject());
         User_ID.setCellValueFactory(data -> data.getValue().getSimpleUser_ID().asObject());
+
+    }
+
+    /**
+     * Handle switch view to Reports
+     */
+    public void SwitchToReports(MouseEvent mouseEvent) throws Exception{
+
+        /**
+         * Transfer user to Report  view
+         */
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/reports.fxml"));
+        Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        stage.setTitle("Dashboard - Reports");
+        Parent root = (Parent) fxmlLoader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
 
     }
 }
