@@ -37,14 +37,19 @@
                                 <Label>Number Appointments By Type:</Label>
                                 <Text fx:id = "typesNumber"></Text>
                             </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="20">
+                                <Label>Customers with the most appointments:</Label>
+                                <Text fx:id = "customerName"></Text>
+                                <Text fx:id = "customerAppNumber"></Text>
+                            </HBox>
                             <VBox>
 
                             </VBox>
                         </VBox>
                         <VBox spacing="10">
                             <ComboBox fx:id="contactsInfo" onAction="#showSchedule"></ComboBox>
-                            <TableView fx:id="contactSchedule" prefHeight="210.0" prefWidth="400.0">
-
+                            <TableView fx:id="contactSchedule" prefHeight="210.0" prefWidth="600.0">
+                                <columns>
                                 <TableColumn text="Appointment_ID " fx:id="AppId" ></TableColumn>
                                 <TableColumn text="Title"  fx:id="Title" ></TableColumn>
                                 <TableColumn text="Description" fx:id="Description" ></TableColumn>
@@ -52,7 +57,7 @@
                                 <TableColumn text="Start Date and Time " fx:id="StartDate_Time" ></TableColumn>
                                 <TableColumn text="End Date and Time " fx:id="EndDate_Time"> </TableColumn>
                                 <TableColumn text="Customer_ID" fx:id="Cust_ID" ></TableColumn>
-
+                                </columns>
                             </TableView>
 
                         </VBox>

@@ -24,6 +24,7 @@ import main.models.DataPool;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -45,8 +46,20 @@ public class ReportController implements Initializable {
     @FXML
     public ComboBox contactsInfo;
 
+    /**
+     * For additional report
+     */
+    @FXML
+    public Text customerName;
+    @FXML
+    public Text customerAppNumber;
+
+    @FXML
+    public Text errorHolder;
     @FXML
     public Text notificationHolder;
+
+
     /**
      * Initialize Data
      */
@@ -56,7 +69,7 @@ public class ReportController implements Initializable {
      */
 
     @FXML
-    private TableView<Appointments> AppointmentView;
+    private TableView<Appointments> contactSchedule;
     @FXML
     private TableColumn<Appointments, Integer> AppId;
     @FXML
@@ -80,6 +93,7 @@ public class ReportController implements Initializable {
          * Run once
          */
         if(!initialized){
+
             for(int i = 0; i < DataPool.getAllAppointments().size(); i++){
                 /**
                  * Get all months
@@ -88,11 +102,6 @@ public class ReportController implements Initializable {
                     appMonth = appMonth + 1;
                     monthsNumber.setText(String.valueOf(appMonth));
                 }
-            }
-            /**
-             * Get number of different Types
-             */
-            initialized = true;
 
             /**
              * Get all contacts data
@@ -105,21 +114,59 @@ public class ReportController implements Initializable {
                         contactsInfo.setPromptText("Select Contact");
                     }
 
-                /**
-                 * Initialize Tables with contact schedule
-                 */
-
             }
             catch(Exception e){
                 System.out.println(e.getMessage());
             }
 
         }
+            initialized = true;
+
+        }
+
+        /**
+         *
+         * 1F Additional Report: Display customer with the most scheduled  appointments
+         */
+
+        String customerNameHolder = ""; // for additional report
+        int maxAppnumber = 1;
+        int customerIdwithMaxtApp = 0;
+
+
+        ArrayList <Integer> customer_Id_List = new ArrayList<Integer>();
+        for(int i = 0; i < DataPool.getAllAppointments().size(); i++){
+            customer_Id_List.add(DataPool.getAllAppointments().get(i).getCustomer_ID()); //add customer to list
+        }
+
+        for(int i =0; i <  customer_Id_List.size(); i++){
+            if(customer_Id_List.get(i) > maxAppnumber){
+                customerIdwithMaxtApp = customer_Id_List.get(i) + 1;
+                maxAppnumber = maxAppnumber+1;
+            }
+        }
+        if(maxAppnumber > 1){
+
+            try{
+                ResultSet customers = DatabaseRequests.loadCustomerData();
+                while(customers.next()){
+                    if(customerIdwithMaxtApp == customers.getInt("Customer_ID")){
+                        customerNameHolder = customers.getString("Customer_Name");
+                    }
+                }
+            }
+            catch (Exception e){
+                errorHolder.setText("Can't retrieve customer Name");
+            }
+
+        }
+        else{
+            customerAppNumber.setText("No more than 1 appointment scheduled for each customer");
+        }
 
         monthsNumber.setText(String.valueOf(appMonth));
         typesNumber.setText(String.valueOf(appTypes));
-
-
+        customerName.setText(customerNameHolder + " has max number (" + maxAppnumber + ") appointments.");
 
     }
 
@@ -128,7 +175,7 @@ public class ReportController implements Initializable {
      * Transfer to Appointment View
      */
     public void SwitchTableToAppointments(MouseEvent mouseEvent)throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/addCustomerForm.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("resources/appointments.fxml"));
         Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
         stage.setTitle("Add New Customer");
         Parent root = (Parent) fxmlLoader.load();
@@ -160,18 +207,51 @@ public class ReportController implements Initializable {
 
     public void showSchedule(ActionEvent actionEvent) throws Exception{
 
-        System.out.println(contactsInfo.getSelectionModel().getSelectedItem());
-        //will contain data
+        notificationHolder.setText("");
         ObservableList<Appointments> selectedAppointments = FXCollections.observableArrayList();
-            for(int i = 0; i < DataPool.getAllAppointments().size(); i++ ){
-                if(DataPool.getAllAppointments().get(i).getContact_ID() == contactsInfo.getSelectionModel().getSelectedIndex()+1){
-                    selectedAppointments.add(DataPool.getAllAppointments().get(i));
-                }
-            }
+        int selectedContactId = contactsInfo.getSelectionModel().getSelectedIndex() + 1;
 
-        /**
-         * Set up columns
-         */
+            try{
+                System.out.println(DataPool.getAllAppointments().size());
+                for(int i = 0; i < DataPool.getAllAppointments().size(); i++){
+
+                    Appointments currentTestedApp = DataPool.getAllAppointments().get(i);
+
+                    if(currentTestedApp.getContact_ID() == selectedContactId){
+                        System.out.println("Current APP" + currentTestedApp.getContact_ID() + "VS" + selectedContactId);
+                        selectedAppointments.add(DataPool.getAllAppointments().get(i));
+                     }
+                }
+
+                /**
+                 * Populate rows with data
+                 */
+
+                if(selectedAppointments.size() > 0){
+                    contactSchedule.setItems(selectedAppointments);
+                    AppId.setCellValueFactory(data -> data.getValue().getSimpleApptId().asObject());
+                    Title.setCellValueFactory(data -> data.getValue().getSimpleTitle());
+                    Description.setCellValueFactory(data -> data.getValue().getSimpleDescription());
+
+                    Type.setCellValueFactory(data -> data.getValue().getSimpleType());
+
+                    StartDate_Time.setCellValueFactory(data-> data.getValue().getStartDateObject());
+                    EndDate_Time.setCellValueFactory(data-> data.getValue().getEndDateObject());
+
+                    Cust_ID.setCellValueFactory(data -> data.getValue().getSimpleCus_ID().asObject());
+                }
+                else{
+                    notificationHolder.setText("No appointments for this contact!");
+                }
+
 
     }
-}
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+
+
+                }
+
+    }
+
