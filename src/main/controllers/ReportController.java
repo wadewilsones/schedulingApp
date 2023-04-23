@@ -1,17 +1,24 @@
 package main.controllers;
 
 import dbhelper.DatabaseRequests;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.Main;
+import main.models.Appointments;
 import main.models.DataPool;
 
 import java.net.URL;
@@ -36,12 +43,34 @@ public class ReportController implements Initializable {
     public static int appTypes = 0;
 
     @FXML
-    public ListView contactsInfo = new ListView<>();
+    public ComboBox contactsInfo;
 
+    @FXML
+    public Text notificationHolder;
     /**
      * Initialize Data
      */
 
+    /**
+     * FXML data holders
+     */
+
+    @FXML
+    private TableView<Appointments> AppointmentView;
+    @FXML
+    private TableColumn<Appointments, Integer> AppId;
+    @FXML
+    private TableColumn <Appointments,String> Title;
+    @FXML
+    private TableColumn  <Appointments,String> Description;
+    @FXML
+    private TableColumn  <Appointments,String> Type;
+    @FXML
+    private TableColumn  <Appointments,LocalDateTime> StartDate_Time;
+    @FXML
+    private TableColumn   <Appointments,LocalDateTime> EndDate_Time;
+    @FXML
+    private TableColumn  <Appointments,Integer> Cust_ID;
 
 
     @Override
@@ -73,7 +102,13 @@ public class ReportController implements Initializable {
                     while(contacts.next()){
                         //add to listview
                         contactsInfo.getItems().add(contacts.getString("Contact_Name"));
+                        contactsInfo.setPromptText("Select Contact");
                     }
+
+                /**
+                 * Initialize Tables with contact schedule
+                 */
+
             }
             catch(Exception e){
                 System.out.println(e.getMessage());
@@ -83,6 +118,8 @@ public class ReportController implements Initializable {
 
         monthsNumber.setText(String.valueOf(appMonth));
         typesNumber.setText(String.valueOf(appTypes));
+
+
 
     }
 
@@ -115,5 +152,26 @@ public class ReportController implements Initializable {
         Parent root = (Parent) fxmlLoader.load();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    /**
+     * Populate table with selected contract schedule
+     */
+
+    public void showSchedule(ActionEvent actionEvent) throws Exception{
+
+        System.out.println(contactsInfo.getSelectionModel().getSelectedItem());
+        //will contain data
+        ObservableList<Appointments> selectedAppointments = FXCollections.observableArrayList();
+            for(int i = 0; i < DataPool.getAllAppointments().size(); i++ ){
+                if(DataPool.getAllAppointments().get(i).getContact_ID() == contactsInfo.getSelectionModel().getSelectedIndex()+1){
+                    selectedAppointments.add(DataPool.getAllAppointments().get(i));
+                }
+            }
+
+        /**
+         * Set up columns
+         */
+
     }
 }

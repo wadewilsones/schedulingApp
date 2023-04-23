@@ -21,7 +21,13 @@
                     </GridPane>
 
                     <VBox spacing="20" alignment="CENTER_LEFT" styleClass="ReportDataContainer" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.columnSpan="2">
-                        <Text styleClass="DashboardReportHeader">Reports</Text>
+                       <VBox spacing="5">
+                           <Text styleClass="DashboardReportHeader">Reports</Text>
+                           <Text GridPane.rowIndex="2" styleClass="errorStyle" fx:id="errorHolder"></Text>
+                           <Text GridPane.rowIndex="2" styleClass="notificationStyle" fx:id="notificationHolder"></Text>
+                       </VBox>
+
+
                         <VBox spacing="20" >
                             <HBox  spacing="20" alignment="CENTER_LEFT">
                                 <Label>Number of Appointments this Month:</Label>
@@ -35,8 +41,20 @@
 
                             </VBox>
                         </VBox>
-                        <VBox>
-                            <ListView fx:id="contactsInfo"></ListView>
+                        <VBox spacing="10">
+                            <ComboBox fx:id="contactsInfo" onAction="#showSchedule"></ComboBox>
+                            <TableView fx:id="contactSchedule" prefHeight="210.0" prefWidth="400.0">
+
+                                <TableColumn text="Appointment_ID " fx:id="AppId" ></TableColumn>
+                                <TableColumn text="Title"  fx:id="Title" ></TableColumn>
+                                <TableColumn text="Description" fx:id="Description" ></TableColumn>
+                                <TableColumn text="Type"  fx:id="Type" ></TableColumn>
+                                <TableColumn text="Start Date and Time " fx:id="StartDate_Time" ></TableColumn>
+                                <TableColumn text="End Date and Time " fx:id="EndDate_Time"> </TableColumn>
+                                <TableColumn text="Customer_ID" fx:id="Cust_ID" ></TableColumn>
+
+                            </TableView>
+
                         </VBox>
                     </VBox>
 
