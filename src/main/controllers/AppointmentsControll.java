@@ -167,14 +167,14 @@ public class AppointmentsControll implements Initializable {
             /**
              * Display upcoming appointments
              */
-            for(int i=0; i< DataPool.getAllAppointments().size(); i++){
+            for(int i=0; i < DataPool.getAllAppointments().size(); i++){
 
-                LocalTime now = LocalTime.now(); //current time
-                LocalTime deadline = now.plusMinutes(15);
-                LocalTime  appointemnt = DataPool.getAllAppointments().get(i).getStartDate().toLocalTime();
+                LocalDateTime now = LocalDateTime.now(); //current time
+                LocalDateTime deadline = now.plusMinutes(15);
+                LocalDateTime appointemnt = DataPool.getAllAppointments().get(i).getStartDate();
 
                  if(appointemnt.isAfter(now) && appointemnt.isBefore(deadline)){
-
+                     System.out.println("app today:" + appointemnt + " now: " +  now + " in 15 monites " + deadline);
                      String start = DataPool.getAllAppointments().get(i).getStartDate().getMonthValue() + "/"+DataPool.getAllAppointments().get(i).getStartDate().getDayOfMonth() +"/"+DataPool.getAllAppointments().get(i).getStartDate().getYear();
                      String time = DataPool.getAllAppointments().get(i).getStartDate().getHour() + ":" + DataPool.getAllAppointments().get(i).getStartDate().getMinute();
 

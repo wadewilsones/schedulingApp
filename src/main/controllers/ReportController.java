@@ -7,13 +7,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -22,11 +22,10 @@ import main.models.Appointments;
 import main.models.DataPool;
 
 import java.net.URL;
+import java.security.Key;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ReportController implements Initializable {
 
@@ -40,11 +39,13 @@ public class ReportController implements Initializable {
     private static boolean initialized = false;
 
     @FXML
-    public Text typesNumber;
-    public static int appTypes = 0;
-
-    @FXML
     public ComboBox contactsInfo;
+
+    /**
+     * Types
+     */
+    @FXML
+    public ListView <Map.Entry<String, Integer>> AllTypesContainer = new ListView<>();
 
     /**
      * For additional report
@@ -58,11 +59,6 @@ public class ReportController implements Initializable {
     public Text errorHolder;
     @FXML
     public Text notificationHolder;
-
-
-    /**
-     * Initialize Data
-     */
 
     /**
      * FXML data holders
@@ -86,43 +82,93 @@ public class ReportController implements Initializable {
     private TableColumn  <Appointments,Integer> Cust_ID;
 
 
+    /**
+     * Initialize Data
+     */
+
     @Override
      public void initialize(URL url, ResourceBundle resourceBundle){
 
+        HashMap<String, Integer> typesMap = new HashMap<>();
         /**
          * Run once
          */
         if(!initialized){
+            /**
+             * Get all months
+             */
+            for(int i = 0; i < DataPool.getAllAppointments().size(); i++) {
 
-            for(int i = 0; i < DataPool.getAllAppointments().size(); i++){
-                /**
-                 * Get all months
-                 */
-                if(DataPool.getAllAppointments().get(i).getStartDate().getMonthValue() == LocalDateTime.now().getMonthValue()){
+                if (DataPool.getAllAppointments().get(i).getStartDate().getMonthValue() == LocalDateTime.now().getMonthValue()) {
                     appMonth = appMonth + 1;
                     monthsNumber.setText(String.valueOf(appMonth));
                 }
 
-            /**
-             * Get all contacts data
-             */
-            try{
-                ResultSet contacts = DatabaseRequests.getAllContacts();
-                    while(contacts.next()){
-                        //add to listview
-                        contactsInfo.getItems().add(contacts.getString("Contact_Name"));
-                        contactsInfo.setPromptText("Select Contact");
-                    }
-
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-
         }
+
             initialized = true;
+        }
+
+        /**
+         * Get all contacts data
+         */
+        try{
+            ResultSet contacts = DatabaseRequests.getAllContacts();
+            while(contacts.next()){
+                //add to listview
+                if(!contactsInfo.getItems().contains(contacts.getString("Contact_Name"))){
+                    contactsInfo.getItems().add(contacts.getString("Contact_Name"));
+                }
+                contactsInfo.setPromptText("Select Contact");
+            }
 
         }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        /**
+         * Set list to display all types and their number
+         */
+        for(int i = 0; i < DataPool.getAllAppointments().size(); i++) {
+            /**
+             * Get all appointment types (LAMBDA)
+             */
+            String currentAppointmentType = DataPool.getAllAppointments().get(i).getType();
+
+            /**
+             * Create an new key, value pair to store type and number
+             */
+
+            if(typesMap.containsKey(currentAppointmentType)){
+                typesMap.computeIfPresent(currentAppointmentType, (k, v) -> v+1);
+            }
+            else{
+                typesMap.put(currentAppointmentType, 1);
+            }
+
+
+        }
+
+
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(typesMap.entrySet());
+        ObservableList<Map.Entry<String, Integer>> typeHolder = FXCollections.observableArrayList(list);
+        AllTypesContainer.setItems(typeHolder);
+
+        AllTypesContainer.setCellFactory(data -> new ListCell<Map.Entry<String, Integer>>(){
+            @Override
+            protected void updateItem(Map.Entry<String, Integer> item, boolean isEmpty) {
+                super.updateItem(item, isEmpty);
+                if (isEmpty || item == null) {
+                    setText(null);
+                } else {
+                    setText("Type: " + item.getKey() + ", Number : " + item.getValue());
+                }
+            }
+        });
+        AllTypesContainer.setMaxHeight(150); // set max height
+        AllTypesContainer.setOrientation(Orientation.VERTICAL);
+
 
         /**
          *
@@ -165,7 +211,6 @@ public class ReportController implements Initializable {
         }
 
         monthsNumber.setText(String.valueOf(appMonth));
-        typesNumber.setText(String.valueOf(appTypes));
         customerName.setText(customerNameHolder + " has max number (" + maxAppnumber + ") appointments.");
 
     }
@@ -253,5 +298,33 @@ public class ReportController implements Initializable {
 
                 }
 
+
+    /**
+     * Get different types for Appointments
+     */
+
+    public void getAppointmentByType () {
+
+
+        ArrayList <String> typeHolder = new ArrayList<>();
+        ArrayList <Integer> typeNumberHolder = new ArrayList<>();
+
+        for(int i = 0; i< DataPool.getAllAppointments().size(); i++){ // for each appointment we look for same type
+
+            for(int j = 0; j < typeHolder.size(); j++){
+                //if appointment is matching with other appointmnet we increase amount in typeNumberHolder
+
+                if(!(DataPool.getAllAppointments().get(i).getType().equals(typeHolder.get(j)))){
+                    typeHolder.add(DataPool.getAllAppointments().get(i).getType()); // add to list and increase number
+                    typeNumberHolder.add(1);
+                }
+                else{
+                    typeNumberHolder.set(typeNumberHolder.indexOf(j), j+1 );
+                }
+            }
+        }
+
+
     }
 
+}

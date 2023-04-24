@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.cell.ComboBoxListCell?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="main.controllers.ReportController"
@@ -30,12 +31,15 @@
 
                         <VBox spacing="20" >
                             <HBox  spacing="20" alignment="CENTER_LEFT">
-                                <Label>Number of Appointments this Month:</Label>
+                                <Label>Number of Appointments this month:</Label>
                                 <Text fx:id = "monthsNumber"></Text>
                             </HBox>
                             <HBox alignment="CENTER_LEFT" spacing="20">
                                 <Label>Number Appointments By Type:</Label>
-                                <Text fx:id = "typesNumber"></Text>
+                                <ListView fx:id="AllTypesContainer">
+
+                                </ListView>
+
                             </HBox>
                             <HBox alignment="CENTER_LEFT" spacing="20">
                                 <Label>Customers with the most appointments:</Label>
