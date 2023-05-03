@@ -1,5 +1,5 @@
 # Scheduling App
-### This graphical user app allows to add, delete, and update customers and appointments. Generating reports.
+#### This graphical user app allows to add, delete, and update customers and appointments. Generating reports.
 
 Author: Ulada Haranina
 Version 1.0.0
