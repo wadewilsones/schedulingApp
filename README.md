@@ -6,8 +6,6 @@ Version 1.0.0
 Date 4/24/2023
 IDE IntelliJ IDEA Community 2021 1.3, JDK: Java-17.0-1, JavaFX-SDK-17.0.1, MySQL connector: mysql-connector-java-8.1.25
 
-#### Part Af3. Additional report include data about which customer has the most appointments.
-
 ## To run a program:
 
 1. Open IntelliJ and press build.
