@@ -11,5 +11,7 @@ IDE IntelliJ IDEA Community 2021 1.3, JDK: Java-17.0-1, JavaFX-SDK-17.0.1, MySQL
 1. Open IntelliJ and press build.
 2. You can start app using src/main/Main.js file and press Run button, or configure your setting by build and run Main file
 
+3. Additional database set up is needed
+
 
 
