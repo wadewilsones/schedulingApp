@@ -16,5 +16,5 @@
 ### Notes:
 
 Make sure the project has jdk and javafx library selected in project settings. 
-
+Instructions for database set up will be added later, this app will use MySQL
 
