@@ -13,5 +13,8 @@
 
 3. Additional database set up is needed
 
+### Notes:
+
+Make sure the project has selected SDK in project settings. 
 
 
