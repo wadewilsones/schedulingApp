@@ -16,6 +16,7 @@ After you configure your project compile and run:
 
 ```
 javac --module-path "Path/to/your/javafx/lib" --add-modules javafx.controls,javafx.fxml main.Main
+
 java --module-path "Path/to/your/javafx/lib" --add-modules javafx.controls,javafx.fxml Main
 
 ```
